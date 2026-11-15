@@ -54,3 +54,7 @@ Trois disques vus de profil, de plus en plus grands, sur une barre blanche : à 
 - Gestes : glisser horizontalement en séance pour changer d'exercice ; glisser une ligne de Séances vers la gauche pour Modifier / Supprimer.
 - Messages en bannière en haut, glisser vers le haut pour fermer. Retour haptique aux moments clés (Android ; iPhone récent si Safari le permet).
 - Écran de démarrage : logo sur fond noir encre. Bouton « Comparer » retiré.
+
+## Version 2.4
+- Notion de volume retirée partout (séances, Progression, graphique, lexique) ; les séances affichent le nombre de séries.
+- Exercices regroupés par muscle (Pectoraux, Épaules, Dos, Bras, Jambes, Abdos) dans Séances, la dernière séance et les puces de Progression.
