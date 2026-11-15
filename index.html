@@ -165,6 +165,25 @@ button,[role=button]{user-select:none;-webkit-user-select:none;-webkit-touch-cal
 .bkc .cta{background:var(--tx)}
 #ap h2{display:flex;align-items:center;justify-content:space-between;gap:8px}#ap h2 .mini{float:none}
 #list .row,.rh{padding-left:12px;padding-right:8px}
+
+/* --- réglages --- */
+.gear[hidden],.bk[hidden],.top .mut[hidden]{display:none}
+.gear{position:relative;align-self:center;flex:none;width:44px;height:44px;display:grid;place-items:center;border-radius:var(--r2);color:rgba(255,255,255,.72);transition:transform 140ms var(--ease-out),color 160ms var(--ease-out),background-color 160ms var(--ease-out)}
+.gear svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.gear:active{transform:scale(.94)}
+.gear.warn::after{content:'';position:absolute;top:9px;right:9px;width:9px;height:9px;border-radius:50%;background:#fff;box-shadow:0 0 0 2px var(--red)}
+.bk{display:block;color:rgba(255,255,255,.88);font-size:var(--f2);font-weight:700;padding:6px 0;margin:-6px 0 0}.bk:active{opacity:.6}
+#v-r{max-width:640px}
+.sg{margin:0 0 26px}.sgt{font-size:var(--f1);font-weight:800;color:var(--t2);text-transform:uppercase;letter-spacing:.06em;margin:0 0 8px 2px}
+.sl{background:var(--card);border:1px solid var(--line);border-radius:var(--r2);overflow:hidden}
+.srow{display:flex;align-items:center;gap:12px;width:100%;min-height:52px;padding:12px 16px;border-top:1px solid var(--line);text-align:left;font-size:var(--f3);color:var(--tx);text-decoration:none;transition:background-color 160ms var(--ease-out)}
+.sl>:first-child{border-top:0}.srow span{flex:1;font-weight:600}.srow em{font-style:normal;color:var(--t2);font-size:var(--f2);text-align:right;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:60%}.srow em.al{color:var(--red-ink);font-weight:700}.srow i{font-style:normal;color:var(--t3);font-size:var(--f4);line-height:1}
+button.srow:active,a.srow:active{background:var(--card2)}
+.srow input{flex:1;min-width:0;border:0;outline:0;background:none;font:inherit;font-size:16px;color:var(--t2);text-align:right;padding:0}.srow input:focus{color:var(--tx)}
+.srow .st{gap:10px}.srow .st button{width:38px;height:38px;font-size:var(--f4)}.srow .st b{min-width:44px;font-size:var(--f5)}
+.shp{padding:12px 16px;border-top:1px solid var(--line);font-size:var(--f2);color:var(--t2);line-height:1.5}.shp b{color:var(--tx)}
+.danger .srow span{color:var(--red-ink)}.danger .srow{flex-wrap:wrap}.danger .srow small{flex-basis:100%;color:var(--t2);font-size:var(--f1)}
+.sver{text-align:center;color:var(--t3);font-size:var(--f1);margin:4px 0 8px}
+@media(hover:hover) and (pointer:fine){button.srow:hover,a.srow:hover{background:var(--bg)}.gear:hover{color:#fff;background:rgba(255,255,255,.1)}}
 /* --- grand écran --- */
 @media(min-width:900px){body{padding-left:96px}
 .tabbar{right:auto;top:0;width:96px;flex-direction:column;justify-content:flex-start;gap:8px;padding:24px 10px;border-top:0;border-right:1px solid var(--line);background:var(--card)}
@@ -179,7 +198,7 @@ button,[role=button]{user-select:none;-webkit-user-select:none;-webkit-touch-cal
 @media(prefers-reduced-motion:reduce){.sheet.open .panel{animation:none}.toast{animation:shf 150ms ease}.chip:active,.row:active,.ex:active,.cta:active,.st button:active,.rirs button:active{transform:none}}
 </style></head><body>
 <main class="app">
-<header class="top"><div><div class="mut" id="mo"></div><h1 id="hi">Salut</h1></div><div style="display:flex;gap:8px"><button class="demo" id="help">Aide</button><button class="demo" id="data">Données</button></div></header>
+<header class="top"><div><button class="bk" id="back" hidden>‹ Retour</button><div class="mut" id="mo"></div><h1 id="hi">Salut</h1></div><button class="gear" id="gear" aria-label="Réglages" title="Réglages"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></button><button id="help" hidden>Aide</button><button id="data" hidden>Données</button></header>
 <div class="view" id="v-t" data-v="t"><div class="tgrid"><div class="tcol"><div class="card" id="nx"></div><div id="bkw"></div><div id="ws"></div><div id="last"></div></div><div class="tcol"><div id="reg"></div></div></div></div>
 <div class="view" id="v-p" data-v="p" hidden><div class="pgrid">
 <section id="vp"><h2 class="sec">Progression</h2>
@@ -194,6 +213,7 @@ button,[role=button]{user-select:none;-webkit-user-select:none;-webkit-touch-cal
 </section>
 <aside id="ap"><h2>Tous les exercices <button class="mini" id="newx">+ Nouveau</button></h2><div id="list"></div></aside>
 </div></div>
+<section id="v-r" class="view" data-v="r" hidden></section>
 <section id="vs" class="view" data-v="s" hidden><h2 class="sec">Séances <button class="mini" id="adds">+ Séance passée</button><button class="mini" id="live0" style="margin-right:8px">▶ Démarrer</button></h2><div class="gp lg" style="margin:-6px 0 12px">RIR de chaque exercice :<i style="background:var(--tx)"></i>0 (à fond)<i style="background:#5A6067"></i>1<i style="background:#B9BDC1"></i>2<i style="background:#E7E9E5;border:1px solid #646A71"></i>3+</div><div id="sess"></div></section>
 </main>
 <nav class="tabbar" id="tabs"><button data-v="t" class="on"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v8a1 1 0 0 1-1 1h-4v-6h-6v6H5a1 1 0 0 1-1-1z"/></svg><span>Aujourd'hui</span></button><button data-v="p"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h16M8 15l4-4 3 3 5-6"/></svg><span>Progression</span></button><button data-v="s"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg><span>Séances</span></button></nav>
@@ -347,7 +367,7 @@ function hist(){$('hh').textContent='Historique · '+D[sel[0]].n;$('hist').inner
 function list(){$('list').innerHTML=CATS.map(c=>{const ks=Object.keys(D).filter(k=>D[k].g==c);return ks.length?(`<div class="gh" style="color:${GC[c]}">${c}</div>`+ks.map(k=>{const a=D[k].s,w=a.map(p=>p[1]),mn=Math.min(...w),mx=Math.max(...w),pt=w.map((v,i)=>`${i*60/(w.length-1||1)+2},${22-(v-mn)/(mx-mn||1)*18}`).join(' ');
 return`<button class="row${sel.includes(k)?' sel':''}" data-l="${k}"><div class="grow"><div class="nm">${D[k].sn}</div><div class="gp">${D[k].s.length} séance${D[k].s.length>1?'s':''}</div></div><svg viewBox="0 0 64 26" width="64" height="26"><polyline points="${pt}" fill="none" stroke="${gcol(k)}" opacity="${sel.includes(k)?1:.7}" stroke-width="2" stroke-linejoin="round"/></svg><div class="r"><b>${f1(w.at(-1))}</b>${(()=>{const e=w.length>1?w.at(-1)-w.at(-2):null;return e==null?'<span>—</span>':`<span class="${e>0?'up':e<0?'dn':''}">${e>0?'+':e<0?'−':'±'}${f1(Math.abs(e))} kg</span>`})()}</div></button>`}).join('')):''}).join('');if(Object.keys(D).length)$('list').insertAdjacentHTML('afterbegin','<div class="rh"><span>Exercice</span><span>Perf · écart</span></div>')}
 function emptyP(){$('catf').innerHTML='';$('chips').innerHTML='<button class="chip tog" data-n="1">+ Exercice</button>';$('hero').innerHTML='<div class="hn">Aucun exercice pour l\'instant</div><div class="sub">Démarre une séance ou ajoute un exercice : ta progression s\'affichera ici.</div>';$('mseg').innerHTML=$('pseg').innerHTML=$('kpis').innerHTML=$('hist').innerHTML='';$('svg').innerHTML='';$('tip').style.display='none';PT=[];$('hh').textContent='Historique';$('list').innerHTML='<div class="gp">Aucun exercice enregistré.</div>'}
-function render(){dq=false;dqs=null;$('hi').textContent='Salut'+(PF.n?' '+PF.n:'');if(!D[sel[0]])sel=[Object.keys(D)[0]];if(!Object.keys(D).length){document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.v==view));sess();emptyP();wk();nx();bkw();wkstrip();lastS();$('data').classList.remove('warn');return}document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.v==view));sess();if(!cats().includes(cat))cat='Tous';chips();segs();hero();draw();hist();list();wk();nx();bkw();wkstrip();lastS();$('data').classList.toggle('warn',!BK||Date.now()-BK>12096e5)}
+function render(){dq=false;dqs=null;$('hi').textContent=view=='r'?'Réglages':'Salut'+(PF.n?' '+PF.n:'');if(!D[sel[0]])sel=[Object.keys(D)[0]];if(!Object.keys(D).length){document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.v==view));sess();emptyP();wk();nx();bkw();wkstrip();lastS();$('data').classList.remove('warn');return}document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.v==view));sess();if(!cats().includes(cat))cat='Tous';chips();segs();hero();draw();hist();list();wk();nx();bkw();wkstrip();lastS();$('data').classList.toggle('warn',!BK||Date.now()-BK>12096e5)}
 $('chips').onclick=e=>{const b=e.target.closest('button');if(!b)return;pick=null;
 if(b.dataset.n){openNew();return}if(b.dataset.t){cmp=!cmp;if(cmp&&sel.length<2)sel.push(Object.keys(D).find(k=>!sel.includes(k)));if(!cmp)sel=[sel[0]]}
 else{const k=b.dataset.k;if(cmp){if(sel.includes(k)){if(sel.length>1)sel=sel.filter(x=>x!=k)}else sel=sel.length<3?[...sel,k]:[...sel.slice(1),k]}else sel=[k]}render()};
@@ -384,7 +404,7 @@ $('sess').innerHTML=ds.map(d=>{const ks=Object.keys(D).filter(k=>D[k].s.some(p=>
 const rows=ks.map(k=>{const p=D[k].s.find(x=>x[0]==d);tv+=vol(p);return`<div class="exw"><button class="ex" data-k="${k}"><span><em class="gd" style="background:${gcol(k)}"></em>${D[k].n}${mark(k,p)}<i style="color:${gcol(k)}">${D[k].g}</i></span><b>${f1(p[1])} kg · ${p[5]?rtx(p):(p[3]??'–')+'×'+(p[2]??'–')}</b><span class="rir ${rc(p[4])}" style="margin-left:10px">${R(p[4])}</span></button><button class="ed" data-e="${k}" data-ed="${d}" aria-label="Modifier">✎</button></div>`}).join('');
 return`<div class="card sc"><div class="sh"><div><div class="nm">${WD[dd.getUTCDay()]} ${dl(d)}</div><div class="gp">${ks.length} exercice${ks.length>1?'s':''} · ${Math.round(tv)} kg de volume</div></div>${SE[d]?`<span class="pill sb">${SE[d]=='Alt'?'Séance alternative':'Séance '+SE[d]}</span>`:''}</div>${rows}${NT[d]?`<div class="gp note">${NT[d]}</div>`:''}<button class="ghost" data-ad="${d}">+ Ajouter un exercice</button><button class="ghost" data-dl="${d}">${dqs==d?'Confirmer la suppression':'Supprimer la séance'}</button></div>`}).join('')}
 function openAdd(d){if(!Object.keys(D).length){openNew();return}ed=null;nw=false;$('nw').style.display='none';xk=sel[0];const p=D[xk].s.at(-1);F={w:p[1],r:p[2]||10,s:p[3]||3,i:p[4]??2};$('sht').textContent='Ajouter une perf';$('dd').value=d;sl=SE[d]||'';sheet();$('sheet').classList.add('open')}
-function go(v){view=v;document.querySelectorAll('.view').forEach(x=>{x.hidden=x.dataset.v!=v});document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.v==v));scrollTo(0,0)}
+function go(v){if(v!='r')window.PV=v;view=v;if(window.hdr)hdr();if(v=='r')setR();document.querySelectorAll('.view').forEach(x=>{x.hidden=x.dataset.v!=v});document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.v==v));scrollTo(0,0)}
 $('tabs').onclick=e=>{const b=e.target.closest('button');if(b)go(b.dataset.v)};go('t');
 function wkstrip(){const el=$('ws');if(!el)return;const t=dt(TI),mon=new Date(+t-((t.getUTCDay()+6)%7)*864e5),ds=new Set(Object.values(D).flatMap(e=>e.s.map(p=>p[0]))),L7=['L','M','M','J','V','S','D'];let c=0;
 const cells=L7.map((l,i)=>{const d=new Date(+mon+i*864e5).toISOString().slice(0,10),on=ds.has(d);if(on)c++;return`<div class="wd${d==TI?' td':''}"><span>${l}</span><b class="${on?'on':''}">${on?(SE[d]&&SE[d]!='Alt'?SE[d]:'•'):''}</b></div>`}).join('');
@@ -717,5 +737,41 @@ async function chkUp(){try{const r=await fetch(location.pathname+'?v='+Date.now(
 $('upd').onclick=async()=>{$('upd').textContent='Mise à jour…';try{if(cpt)await cloudPushNow()}catch(e){}try{const rg=await navigator.serviceWorker.getRegistration();if(rg)await rg.update()}catch(e){}location.reload()};
 setTimeout(chkUp,2500);document.addEventListener('visibilitychange',()=>{if(!document.hidden)chkUp()});
 render();
+</script><script>
+// --- Réglages : page à part ouverte par le rouage ---
+var PV=window.PV||'t';const VER='2.0';let wq=0;
+function hdr(){const r=view=='r';$('back').hidden=!r;$('gear').hidden=r;$('mo').hidden=r;$('hi').textContent=r?'Réglages':'Salut'+(PF.n?' '+PF.n:'')}
+const srow=(k,l,v,al)=>`<button class="srow" data-r="${k}"><span>${l}</span>${v!=null?`<em${al?' class="al"':''}>${v}</em>`:''}<i>›</i></button>`;
+function setR(){const el=$('v-r');if(!el)return;const bkOld=!BK||Date.now()-BK>12096e5,
+acc=typeof SU!='undefined'&&SU?(cst==2||sy==2?'Synchro en échec':esc(SU.email||'Connecté')):'Sans compte',accAl=typeof SU!='undefined'&&SU&&(cst==2||sy==2);
+el.innerHTML=`<div class="sg"><div class="sgt">Profil</div><div class="sl">
+<label class="srow"><span>Prénom</span><input id="rpn" maxlength="20" placeholder="Facultatif" autocomplete="given-name" value="${esc(PF.n||'')}"></label>
+<div class="srow"><span>Objectif par semaine</span><div class="st"><button data-rg="-1" aria-label="Moins">−</button><b>${G()}</b><button data-rg="1" aria-label="Plus">+</button></div></div></div></div>
+<div class="sg"><div class="sgt">Programme</div><div class="sl">${srow('ed','Modifier le programme')}${srow('onb','Changer de modèle de programme')}</div></div>
+<div class="sg"><div class="sgt">Compte et données</div><div class="sl">${srow('acc','Compte et synchronisation',acc,accAl)}${srow('bk','Sauvegarde',BK?'Copie du '+new Date(BK).toLocaleDateString('fr-FR',{day:'numeric',month:'short'}):'Jamais faite',bkOld)}</div></div>
+<div class="sg"><div class="sgt">Aide</div><div class="sl">
+<div class="shp"><b>RIR · répétitions en réserve.</b> Le nombre de reps que tu aurais encore pu faire. RIR 0 : à fond. RIR 2 : tu t'arrêtes 2 reps avant l'échec.</div>
+<div class="shp"><b><em class="pr" style="margin:0 4px 0 0">PB</em> Record personnel.</b> La série bat ta meilleure charge sur cet exercice.</div>
+<div class="shp"><b><em class="sbt" style="margin:0 4px 0 0">SB</em> Meilleure de la saison.</b> Ta meilleure charge des 8 dernières semaines, sans battre le record.</div>
+<div class="shp"><b>Séance en direct.</b> « Démarrer » charge ton programme : coche chaque série, le repos se lance tout seul.</div>
+<div class="shp"><b>Installer Lift.</b> iPhone : Partager › Sur l'écran d'accueil. Android : menu ⋮ › Installer l'application.</div>
+${srow('onb','Revoir le guide de démarrage')}</div></div>
+<div class="sg"><div class="sgt">À propos</div><div class="sl">${srow('priv','Confidentialité')}<a class="srow" href="mailto:lift.trainingapp.contact@gmail.com"><span>Contact</span><em>lift.trainingapp.contact@gmail.com</em><i>›</i></a><div class="srow"><span>Version</span><em>${VER}</em></div></div></div>
+<div class="sg danger"><div class="sgt">Zone sensible</div><div class="sl">${typeof SU!='undefined'&&SU?srow('acc','Supprimer mon compte'):''}
+<button class="srow" data-r="wipe"><span>${wq?'Confirmer : tout effacer sur cet appareil':'Effacer les données de cet appareil'}</span><small>${wq?'Dernière étape. Séances, programme et réglages de ce téléphone seront supprimés.'+(SU?' Ton compte en ligne n\'est pas touché.':' Sans sauvegarde, ce sera définitif.'):'Demande une confirmation.'}</small></button></div></div>
+<div class="sver">Lift ${VER} · Tes données restent sur cet appareil${typeof SU!='undefined'&&SU?' et sur ton compte':''}</div>`}
+$('gear').onclick=()=>{wq=0;go('r')};$('back').onclick=()=>{wq=0;go(PV||'t')};
+$('v-r').addEventListener('input',e=>{if(e.target.id=='rpn'){PF.n=e.target.value.trim();pfS();try{cpush()}catch(x){}}});
+$('v-r').addEventListener('click',e=>{const b=e.target.closest('[data-r],[data-rg]');if(!b)return;
+if(b.dataset.rg){PF.g=Math.min(7,Math.max(1,G()+ +b.dataset.rg));pfS();try{cpush()}catch(x){}render();setR();return}
+const r=b.dataset.r;if(r!='wipe'&&wq){wq=0}
+if(r=='ed')openEd();else if(r=='onb')openOnb(1);else if(r=='priv')$('prsheet').classList.add('open');
+else if(r=='acc')$('data').click();else if(r=='bk'){$('data').click();setTimeout(()=>{const t=$('dmut');t&&t.scrollIntoView({block:'start',behavior:'smooth'})},360)}
+else if(r=='wipe'){if(!wq){wq=1;setR();return}try{Object.keys(localStorage).filter(k=>k.startsWith('lift-')).forEach(k=>localStorage.removeItem(k))}catch(x){}location.reload()}});
+// pastille d'alerte : reprend l'état de l'ancien bouton « Données »
+const gsync=()=>{$('gear').classList.toggle('warn',$('data').classList.contains('warn')||(typeof SU!='undefined'&&!!SU&&(cst==2||sy==2)));if(view=='r'&&!document.activeElement?.matches('#rpn'))setR()};
+new MutationObserver(gsync).observe($('data'),{attributes:true,attributeFilter:['class']});
+document.querySelectorAll('.sheet').forEach(x=>new MutationObserver(()=>{if(!x.classList.contains('open')&&view=='r')setR()}).observe(x,{attributes:true,attributeFilter:['class']}));
+gsync();hdr();
 </script><script>if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))</script>
 </body></html>

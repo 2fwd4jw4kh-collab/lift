@@ -31,3 +31,6 @@ Rayons : 4 px (puces, boutons secondaires), 8 px (blocs, boutons), 14 px (haut d
 
 ## Mouvement
 Appui : `scale(.97)`, 140 ms, `cubic-bezier(.23,1,.32,1)`. Feuilles : 320 ms, courbe tiroir iOS. Survols seulement avec souris (`hover: hover`).
+
+## Réglages
+Page à part ouverte par le rouage du bandeau (pas un onglet), avec « ‹ Retour ». Liste façon réglages iPhone : libellé à gauche, valeur en gris, chevron. Aucun bouton rouge plein. La zone sensible est isolée en bas, texte rouge, double confirmation. Une pastille blanche sur le rouage signale une sauvegarde à faire ou une synchro en échec.
