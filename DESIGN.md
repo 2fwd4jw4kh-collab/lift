@@ -13,7 +13,7 @@ Principe : des neutres et **un seul rouge brique**. Aucune autre couleur.
 | `--red` / `--red-ink` | `#9E2F21` / `#8A2819` | Bandeau du haut, action principale, onglet actif, marque PB, courbe de progression |
 
 - Une seule action rouge par écran ; le reste en noir ou en texte.
-- Groupes musculaires : gris `#6E747A`, on les distingue par leur nom, pas par la couleur.
+- Groupes musculaires : 3 familles en 2 intensités. Poussée : Pectoraux `#9E2F21`, Épaules `#C46A58`. Tirage (sarcelle, complémentaire du rouge) : Dos `#2E5E5A`, Bras `#6E9692`. Bas du corps et tronc : Jambes `#14161A`, Abdos `#8A9096`. Uniquement pour les points, courbes et mini-graphiques ; les libellés restent gris.
 - RIR : échelle de gris (0 noir, 1 gris foncé, 2 gris clair, 3+ neutre).
 - Comparaison de courbes : rouge, noir, gris.
 
@@ -45,3 +45,12 @@ Trois disques vus de profil, de plus en plus grands, sur une barre blanche : à 
 - Séance en direct : « + Ajouter un exercice » (même groupe d'abord) et cardio court (durée, intensité Facile / Soutenu / Dur).
 - Ressenti à cocher avant d'enregistrer ; il ajuste les suggestions suivantes.
 - Objectifs : prise de masse, force pure (1RM estimé), full body, cardio, calisthénie (lest, reps ou secondes). Chaque programme est gardé quand on change d'objectif.
+
+## Version 2.3 : toucher et navigation iOS
+- Barre d'état toujours pleine (rouge), plus de voile au défilement ; barre compacte avec titre et rouage quand le grand bandeau sort de l'écran.
+- Onglets : icône pleine quand active, retoucher l'onglet remonte en haut, position de défilement gardée par onglet. Réglages arrive par la droite, retour en glissant depuis le bord gauche.
+- Feuilles : poignée, glisser vers le bas pour fermer, toucher le fond pour fermer, page derrière bloquée. Ouverture 380 ms courbe tiroir, fermeture 240 ms.
+- Toucher : appui visible immédiatement, cibles ≥ 40-44 px, + / − répétés à l'appui long, champs numériques sélectionnés au toucher.
+- Gestes : glisser horizontalement en séance pour changer d'exercice ; glisser une ligne de Séances vers la gauche pour Modifier / Supprimer.
+- Messages en bannière en haut, glisser vers le haut pour fermer. Retour haptique aux moments clés (Android ; iPhone récent si Safari le permet).
+- Écran de démarrage : logo sur fond noir encre. Bouton « Comparer » retiré.
