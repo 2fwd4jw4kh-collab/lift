@@ -152,6 +152,7 @@ input.tx{width:100%;background:var(--bg);border:1px solid var(--line);color:#fff
 <div class="sheet" id="psheet"><div class="panel"><h3>Démarrer une séance</h3><div class="mut" style="margin-bottom:12px">Séries, reps, RIR et repos de ton programme déjà en place</div><div id="plist"></div><button class="ghost" id="pno">Annuler</button></div></div>
 <div class="sheet" id="esheet"><div class="panel" id="ep" style="max-height:92dvh;overflow-y:auto"></div></div>
 <div class="sheet" id="osheet"><div class="panel" id="op" style="max-height:92dvh;overflow-y:auto"></div></div>
+<div class="sheet" id="wsheet"><div class="panel" style="max-height:92dvh;overflow-y:auto"><div style="display:flex;align-items:center;gap:12px;margin-bottom:6px"><img src="icon-192.png" alt="" width="48" height="48" style="border-radius:12px"><div><h3 style="margin:0;font-size:24px">Lift</h3><div class="mut">Ton carnet de musculation</div></div></div><div id="wacc" style="margin-top:12px"></div><button class="ghost" id="wskip">Continuer sans compte</button><div class="gp" style="text-align:center">Sans compte, tes données restent uniquement sur cet appareil.</div></div></div>
 <div class="sheet" id="csheet"><div class="panel" id="cfx"></div></div>
 <div class="sheet" id="prsheet"><div class="panel" style="max-height:92dvh;overflow-y:auto"><h3>Confidentialité</h3>
 <div class="tip2"><b>Sans compte</b>, tout reste sur ton appareil : rien n'est envoyé nulle part.</div>
@@ -169,7 +170,7 @@ input.tx{width:100%;background:var(--bg);border:1px solid var(--line);color:#fff
 <div class="fr"><span>RIR</span><div class="rirs" id="rirs"></div></div>
 <button class="cta" id="ok">Valider la série</button><button class="ghost" id="pdel" style="display:none"></button><button class="ghost" id="no">Annuler</button></div></div>
 <script>
-const APPV='2026-11-15.3';
+const APPV='2026-11-15.4';
 const M=['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
 const TI=new Date().toISOString().slice(0,10),TD=TI,T0=new Date(TI),dt=s=>new Date(s.length>5?s:'2026-'+s),$=id=>document.getElementById(id);
 const dtl=t=>{const d=new Date(t);return d.getUTCDate()+' '+M[d.getUTCMonth()]},dl=s=>dtl(+dt(s))+(dt(s).getUTCFullYear()!=+TI.slice(0,4)?' '+dt(s).getUTCFullYear():'');
@@ -579,13 +580,12 @@ function onbR(){const first=!OB.h;$('op').innerHTML=`<h3>${first?'Bienvenue sur 
 <div class="tip2" style="margin-top:0"><b>RIR = répétitions en réserve.</b> C'est le nombre de reps que tu aurais encore pu faire à la fin d'une série. RIR 2 : tu t'arrêtes 2 reps avant l'échec. RIR 0 : impossible d'en faire une de plus.</div>
 <div class="tip2"><b>Progression.</b> Chaque exercice a une fourchette de reps (par exemple 8 à 12). Quand tu atteins le haut de la fourchette au RIR visé, l'app te propose d'augmenter la charge.</div>
 <div class="tip2"><b>En séance.</b> Coche chaque série terminée : le chrono de repos démarre tout seul.</div>
-<div class="tip2"><b>Tes données</b> restent sur cet appareil. Pour les retrouver sur tous tes appareils, crée un compte (facultatif) dans « Données ».</div>`+(obPick()?`<div class="gh">Ton programme</div>`+Object.keys(TPL).map(k=>`<button class="row${OB.tp==k?' sel':''}" data-tp="${k}"><div class="grow"><div class="nm">${TPL[k].n}</div><div class="gp">${TPL[k].d}</div></div></button>`).join('')+`<div class="gp">Tu pourras tout modifier ensuite.</div>`:'')+`<div class="gp" style="margin-top:14px;text-align:center">Version ${APPV}</div><button class="cta" id="opok">${first?'Commencer':'OK'}</button>${first?'<button class="ghost" id="ophave">J\'ai déjà un compte</button>':''}`}
+<div class="tip2"><b>Tes données</b> restent sur cet appareil. Pour les retrouver sur tous tes appareils, crée un compte (facultatif) dans « Données ».</div>`+(obPick()?`<div class="gh">Ton programme</div>`+Object.keys(TPL).map(k=>`<button class="row${OB.tp==k?' sel':''}" data-tp="${k}"><div class="grow"><div class="nm">${TPL[k].n}</div><div class="gp">${TPL[k].d}</div></div></button>`).join('')+`<div class="gp">Tu pourras tout modifier ensuite.</div>`:'')+`<div class="gp" style="margin-top:14px;text-align:center">Version ${APPV}</div><button class="cta" id="opok">${first?'Commencer':'OK'}</button>`}
 $('op').onclick=e=>{const b=e.target.closest('button');if(!b)return;PF.n=cleanT($('opn').value).slice(0,20);
 if(b.dataset.tp){OB.tp=b.dataset.tp;onbR();return}
-if(b.id=='ophave'){PF.ob=1;pfS();$('osheet').classList.remove('open');render();$('data').click();return}
 if(b.id=='opok'){const pk=obPick(),tp=OB.tp;if(pk){PLAN=cp(TPL[tp].P);save()}PF.ob=1;pfS();$('osheet').classList.remove('open');render();if(pk&&tp=='vide')openEd()}};
 $('help').onclick=()=>openOnb(1);
-if(!PF.ob)openOnb();
+if(!PF.ob){if(FR&&!Object.keys(D).length)setTimeout(openWelcome,0);else openOnb()}
 // --- compte et synchronisation (Supabase) ---
 var SB=null,SU=null,cst=0,LS=0,cpt=null,sbTried=false,acq=false,AS={step:0},CF=null;
 const SB_URL='https://pvgvwzsvcawpuvurpazt.supabase.co',SB_KEY='sb_publishable_642neizSZ7nvLTp45WdgSQ_xfAjSOl6';
@@ -603,7 +603,7 @@ if(m.includes('same')&&m.includes('password'))return"Choisis un mot de passe dif
 if(m.includes('fetch')||m.includes('network'))return'Pas de connexion internet.';
 return'Erreur : '+(e&&e.message||'inconnue')}
 async function sbInit(){try{const m=await sbMod();SB=m.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,storageKey:'lift-auth'}});const r=await SB.auth.getSession();SU=r.data&&r.data.session?r.data.session.user:null;
-SB.auth.onAuthStateChange((ev,s)=>{if(ev=='PASSWORD_RECOVERY'){AS={step:'rec'};setTimeout(()=>$('data').click(),0)}const nu=s?s.user:null,ch=(nu&&nu.id)!=(SU&&SU.id);SU=nu;if(ch&&SU)setTimeout(()=>cloudPull(),0);acUI()});if(SU)cloudPull()}catch(e){SB=null}sbTried=true;acUI()}
+SB.auth.onAuthStateChange((ev,s)=>{if(ev=='PASSWORD_RECOVERY'){AS={step:'rec'};setTimeout(()=>$('data').click(),0)}const nu=s?s.user:null,ch=(nu&&nu.id)!=(SU&&SU.id);SU=nu;if(ch&&SU)setTimeout(async()=>{await cloudPull();welDone()},0);acUI()});if(SU)cloudPull()}catch(e){SB=null}sbTried=true;acUI()}
 function applyRemote(rd,rts){if(!rd||!rd.st)return;const s=mg(cp(rd.st));if(s.P&&typeof s.P=='object')PLAN=s.P;D=s.D;SE=s.SE;NT=s.NT;DL=s.DL;TS=rts;store();
 if(rd.pf){if(rd.pf.n!=null)PF.n=rd.pf.n;if(rd.pf.g)PF.g=rd.pf.g;PF.ob=1;pfS();$('osheet').classList.remove('open')}pick=null;cmp=false;if(!D[sel[0]])sel=[Object.keys(D)[0]];render()}
 async function cloudPushNow(){clearTimeout(cpt);cpt=null;if(!SB||!SU)return;if(!TS)TS=Date.now();cst=3;acUI();try{const {error}=await SB.from('lift_state').upsert({user_id:SU.id,data:{st:JSON.parse(snap()),pf:{n:PF.n||'',g:G(),ob:1}},updated_at:TS});cst=error?2:1;if(!error)LS=Date.now()}catch(e){cst=2}acUI()}
@@ -618,7 +618,7 @@ cst=1;LS=Date.now()}catch(e){cst=2}acUI()}
 function askConflict(rd,rts,nr,nl){CF={rd,rts};$('cfx').innerHTML=`<h3>Quelles données garder ?</h3><div class="mut">Ton compte contient déjà des séances, et cet appareil aussi. Les deux versions sont différentes.</div><button class="cta" data-cf="acc">Garder celles du compte (${nr} séance${nr>1?'s':''})</button><button class="ghost" data-cf="dev">Garder celles de cet appareil (${nl} séance${nl>1?'s':''})</button><div class="gp" style="margin-top:6px">L'autre version sera remplacée. Pense à faire une copie avant si tu as un doute.</div><button class="ghost" data-cf="later">Décider plus tard</button>`;$('csheet').classList.add('open')}
 $('cfx').onclick=async e=>{const b=e.target.closest('button');if(!b||!CF)return;const c=b.dataset.cf,x=CF;$('csheet').classList.remove('open');CF=null;
 if(c=='acc'){applyRemote(x.rd,x.rts);setLinked();cst=1;LS=Date.now();acUI();toast('Données du compte chargées')}else if(c=='dev'){TS=Date.now();store();setLinked();await cloudPushNow();toast('Données de cet appareil envoyées sur le compte')}};
-function acUI(){const el=$('acc');if(el){let o='';
+function acUI(){const wo=$('wsheet').classList.contains('open'),el=wo?$('wacc'):$('acc');$(wo?'acc':'wacc').innerHTML='';if(el){let o='';
 if(!SB)o=`<div class="gp">${sbTried?'Compte indisponible pour le moment (pas de connexion internet ?).':'Chargement…'}</div>`;
 else if(SU&&AS.step!='rec')o=`<div class="gp">Connecté : <b style="color:#fff">${esc(SU.email||'')}</b></div><div class="gp" style="margin-top:4px">${cst==1?'✓ Synchronisé'+(LS?' à '+hm(LS):''):cst==3?'Synchronisation…':cst==2?'Synchronisation en échec : nouvel essai au prochain changement':''}</div><button class="ghost" data-ac="sync">Synchroniser maintenant</button><button class="ghost" data-ac="out">Se déconnecter</button><button class="ghost" data-ac="del">${acq?'Confirmer : supprimer le compte et ses données en ligne':'Supprimer mon compte'}</button>`;
 else if(SU&&AS.step=='rec')o=`<div class="gp">Choisis ton nouveau mot de passe.</div><input class="tx" id="apw" type="password" autocomplete="new-password" placeholder="Nouveau mot de passe (6 caractères min.)"><button class="cta" data-ac="newpw">Enregistrer le mot de passe</button>`;
@@ -626,7 +626,7 @@ else if(!SU&&AS.step=='new')o=`<div class="gp">Crée ton compte : tu recevras un
 else if(!SU)o=`<div class="gp">Facultatif : connecte-toi pour retrouver tes séances sur tous tes appareils et ne plus les perdre.</div><input class="tx" id="aem" type="email" inputmode="email" autocomplete="email" placeholder="Adresse e-mail" value="${esc(AS.email||'')}"><input class="tx" id="apw" type="password" autocomplete="current-password" placeholder="Mot de passe"><button class="cta" data-ac="login">Se connecter</button><button class="ghost" data-ac="new">Créer un compte</button><button class="ghost" data-ac="forgot">Mot de passe oublié ?</button>`;
 o+=(AS.msg?`<div class="tip2">${esc(AS.msg)}</div>`:'')+`<button class="ghost" data-ac="priv">Confidentialité</button>`;el.innerHTML=o}
 $('data').classList.toggle('sy',!!(SU&&cst==1)||sy==1);bkw()}
-$('acc').onclick=async e=>{const b=e.target.closest('button');if(!b||!SB)return;const a=b.dataset.ac;AS.msg='';
+const accClick=async e=>{const b=e.target.closest('button');if(!b||!SB)return;const a=b.dataset.ac;AS.msg='';
 if(a=='priv'){$('prsheet').classList.add('open');return}
 const em=()=>(($('aem')||{}).value||'').trim(),pw=()=>(($('apw')||{}).value||'');
 const busy=t=>{b.disabled=true;b.textContent=t},okEm=x=>/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(x);
@@ -643,10 +643,14 @@ if(a=='back'){AS={step:0,email:AS.email};acUI();return}
 if(a=='sync'){cloudPull();return}
 if(a=='out'){if(cpt)await cloudPushNow();try{await SB.auth.signOut({scope:'local'})}catch(x){}try{localStorage.removeItem('lift-uid')}catch(x){}SU=null;cst=0;acq=false;acUI();toast('Déconnecté : tes données restent sur cet appareil');return}
 if(a=='del'){if(!acq){acq=true;acUI();return}acq=false;try{const {error}=await SB.rpc('delete_my_account');if(error){AS.msg=errMsg(error);acUI();return}}catch(x){AS.msg=errMsg(x);acUI();return}try{await SB.auth.signOut({scope:'local'})}catch(x){}try{localStorage.removeItem('lift-uid')}catch(x){}SU=null;cst=0;acUI();toast('Compte supprimé. Tes données restent sur cet appareil.')}};
-$('acc').onkeydown=e=>{if(e.key=='Enter'){const b=$('acc').querySelector('.cta');if(b)b.click()}};
+$('acc').onclick=$('wacc').onclick=accClick;
+$('acc').onkeydown=$('wacc').onkeydown=e=>{if(e.key=='Enter'){const b=e.currentTarget.querySelector('.cta');if(b)b.click()}};
 $('prok').onclick=()=>$('prsheet').classList.remove('open');
 $('data').addEventListener('click',()=>{acq=false;acUI()});
 document.addEventListener('visibilitychange',()=>{if(document.hidden){if(cpt)cloudPushNow()}else if(SU&&linked())cloudPull()});
+function openWelcome(){$('wsheet').classList.add('open');acUI()}
+function welDone(){if(!$('wsheet').classList.contains('open'))return;$('wsheet').classList.remove('open');acUI();if(!PF.ob)openOnb()}
+$('wskip').onclick=()=>{$('wsheet').classList.remove('open');acUI();if(!PF.ob)openOnb()};
 sbInit();
 // --- mises à jour ---
 async function chkUp(){try{const r=await fetch(location.pathname+'?v='+Date.now(),{cache:'no-store'}),t=await r.text(),m=t.match(/const APPV='([^']+)'/);if(m&&m[1]!=APPV)$('upd').style.display='block'}catch(e){}}
