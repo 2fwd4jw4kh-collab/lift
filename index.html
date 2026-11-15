@@ -170,7 +170,7 @@ input.tx{width:100%;background:var(--bg);border:1px solid var(--line);color:#fff
 <div class="fr"><span>RIR</span><div class="rirs" id="rirs"></div></div>
 <button class="cta" id="ok">Valider la série</button><button class="ghost" id="pdel" style="display:none"></button><button class="ghost" id="no">Annuler</button></div></div>
 <script>
-const APPV='2026-11-15.4';
+const APPV='2026-11-15.5';
 const M=['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
 const TI=new Date().toISOString().slice(0,10),TD=TI,T0=new Date(TI),dt=s=>new Date(s.length>5?s:'2026-'+s),$=id=>document.getElementById(id);
 const dtl=t=>{const d=new Date(t);return d.getUTCDate()+' '+M[d.getUTCMonth()]},dl=s=>dtl(+dt(s))+(dt(s).getUTCFullYear()!=+TI.slice(0,4)?' '+dt(s).getUTCFullYear():'');
@@ -593,12 +593,15 @@ const sbMod=window.__LIFT_SB||(()=>import('https://cdn.jsdelivr.net/npm/@supabas
 const linked=()=>{try{return !!SU&&localStorage.getItem('lift-uid')==SU.id}catch(e){return false}},setLinked=()=>{try{localStorage.setItem('lift-uid',SU.id)}catch(e){}};
 const nSess=st=>{try{return new Set(Object.values(st.D||{}).flatMap(e=>(e.s||[]).map(p=>p[0]))).size}catch(e){return 0}};
 const hm=t=>new Date(t).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+const pwRules=p=>[[p.length>=8,'8 caractères'],[/[a-z]/.test(p),'une minuscule'],[/[A-Z]/.test(p),'une majuscule'],[/[0-9]/.test(p),'un chiffre']],pwOk=p=>pwRules(p).every(r=>r[0]);
+const pwBox=(ac,ph,neu)=>`<div style="position:relative"><input class="tx" id="apw" type="password" autocomplete="${ac}" placeholder="${ph}" style="padding-right:64px"${neu?' data-neu="1"':''}><button type="button" class="x" data-ac="eye" style="position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:13px">Voir</button></div>${neu?'<div class="gp" id="pwh" style="margin:-2px 0 6px">'+pwHint('')+'</div>':''}`;
+const pwHint=p=>'Au moins : '+pwRules(p).map(r=>`<span style="color:${r[0]?'#A3AA83':'var(--t3)'}">${r[0]?'✓ ':''}${r[1]}</span>`).join(' · ');
 function errMsg(e){const m=String(e&&e.message||'').toLowerCase();
 if((e&&e.status==429)||m.includes('rate limit')||m.includes('seconds'))return"Trop de demandes : réessaie dans quelques minutes.";
 if(m.includes('invalid login'))return'E-mail ou mot de passe incorrect.';
 if(m.includes('not confirmed'))return"Adresse pas encore confirmée : clique sur le lien reçu par e-mail, puis reconnecte-toi ici.";
 if(m.includes('already registered')||m.includes('already been registered'))return'Un compte existe déjà avec cette adresse : connecte-toi.';
-if(m.includes('password')&&(m.includes('least')||m.includes('short')||m.includes('weak')))return'Mot de passe trop faible : 6 caractères minimum.';
+if(m.includes('password')&&(m.includes('least')||m.includes('short')||m.includes('weak')||m.includes('character')))return'Mot de passe trop faible : 8 caractères minimum, avec une minuscule, une majuscule et un chiffre.';
 if(m.includes('same')&&m.includes('password'))return"Choisis un mot de passe différent de l'ancien.";
 if(m.includes('fetch')||m.includes('network'))return'Pas de connexion internet.';
 return'Erreur : '+(e&&e.message||'inconnue')}
@@ -620,30 +623,34 @@ $('cfx').onclick=async e=>{const b=e.target.closest('button');if(!b||!CF)return;
 if(c=='acc'){applyRemote(x.rd,x.rts);setLinked();cst=1;LS=Date.now();acUI();toast('Données du compte chargées')}else if(c=='dev'){TS=Date.now();store();setLinked();await cloudPushNow();toast('Données de cet appareil envoyées sur le compte')}};
 function acUI(){const wo=$('wsheet').classList.contains('open'),el=wo?$('wacc'):$('acc');$(wo?'acc':'wacc').innerHTML='';if(el){let o='';
 if(!SB)o=`<div class="gp">${sbTried?'Compte indisponible pour le moment (pas de connexion internet ?).':'Chargement…'}</div>`;
-else if(SU&&AS.step!='rec')o=`<div class="gp">Connecté : <b style="color:#fff">${esc(SU.email||'')}</b></div><div class="gp" style="margin-top:4px">${cst==1?'✓ Synchronisé'+(LS?' à '+hm(LS):''):cst==3?'Synchronisation…':cst==2?'Synchronisation en échec : nouvel essai au prochain changement':''}</div><button class="ghost" data-ac="sync">Synchroniser maintenant</button><button class="ghost" data-ac="out">Se déconnecter</button><button class="ghost" data-ac="del">${acq?'Confirmer : supprimer le compte et ses données en ligne':'Supprimer mon compte'}</button>`;
-else if(SU&&AS.step=='rec')o=`<div class="gp">Choisis ton nouveau mot de passe.</div><input class="tx" id="apw" type="password" autocomplete="new-password" placeholder="Nouveau mot de passe (6 caractères min.)"><button class="cta" data-ac="newpw">Enregistrer le mot de passe</button>`;
-else if(!SU&&AS.step=='new')o=`<div class="gp">Crée ton compte : tu recevras un e-mail pour confirmer ton adresse.</div><input class="tx" id="aem" type="email" inputmode="email" autocomplete="email" placeholder="Adresse e-mail" value="${esc(AS.email||'')}"><input class="tx" id="apw" type="password" autocomplete="new-password" placeholder="Mot de passe (6 caractères min.)"><button class="cta" data-ac="signup">Créer mon compte</button><button class="ghost" data-ac="back">J'ai déjà un compte</button>`;
-else if(!SU)o=`<div class="gp">Facultatif : connecte-toi pour retrouver tes séances sur tous tes appareils et ne plus les perdre.</div><input class="tx" id="aem" type="email" inputmode="email" autocomplete="email" placeholder="Adresse e-mail" value="${esc(AS.email||'')}"><input class="tx" id="apw" type="password" autocomplete="current-password" placeholder="Mot de passe"><button class="cta" data-ac="login">Se connecter</button><button class="ghost" data-ac="new">Créer un compte</button><button class="ghost" data-ac="forgot">Mot de passe oublié ?</button>`;
-o+=(AS.msg?`<div class="tip2">${esc(AS.msg)}</div>`:'')+`<button class="ghost" data-ac="priv">Confidentialité</button>`;el.innerHTML=o}
+else if(SU&&AS.step!='rec'&&AS.step!='chpw')o=`<div class="gp">Connecté : <b style="color:#fff">${esc(SU.email||'')}</b></div><div class="gp" style="margin-top:4px">${cst==1?'✓ Synchronisé'+(LS?' à '+hm(LS):''):cst==3?'Synchronisation…':cst==2?'Synchronisation en échec : nouvel essai au prochain changement':''}</div><button class="ghost" data-ac="sync">Synchroniser maintenant</button><button class="ghost" data-ac="chpw">Changer de mot de passe</button><button class="ghost" data-ac="out">Se déconnecter</button><button class="ghost" data-ac="del">${acq?'Confirmer : supprimer le compte et ses données en ligne':'Supprimer mon compte'}</button>`;
+else if(SU&&(AS.step=='rec'||AS.step=='chpw'))o=`<div class="gp">Choisis ton nouveau mot de passe.</div>${pwBox('new-password','Nouveau mot de passe',1)}<button class="cta" data-ac="newpw">Enregistrer le mot de passe</button>${AS.step=='chpw'?'<button class="ghost" data-ac="back">Annuler</button>':''}`;
+else if(!SU&&AS.step=='new')o=`<div class="gp">Crée ton compte : tu recevras un e-mail pour confirmer ton adresse.</div><input class="tx" id="aem" type="email" inputmode="email" autocomplete="email" placeholder="Adresse e-mail" value="${esc(AS.email||'')}">${pwBox('new-password','Mot de passe',1)}<button class="cta" data-ac="signup">Créer mon compte</button><button class="ghost" data-ac="back">J'ai déjà un compte</button>`;
+else if(!SU)o=`<div class="gp">Facultatif : connecte-toi pour retrouver tes séances sur tous tes appareils et ne plus les perdre.</div><input class="tx" id="aem" type="email" inputmode="email" autocomplete="email" placeholder="Adresse e-mail" value="${esc(AS.email||'')}">${pwBox('current-password','Mot de passe')}<button class="cta" data-ac="login">Se connecter</button><button class="ghost" data-ac="new">Créer un compte</button><button class="ghost" data-ac="forgot">Mot de passe oublié ?</button>`;
+o+=(AS.msg?`<div class="tip2">${esc(AS.msg)}</div>`:'')+(AS.unconf?'<button class="ghost" data-ac="resend">Renvoyer l\'e-mail de confirmation</button>':'')+`<button class="ghost" data-ac="priv">Confidentialité</button>`;el.innerHTML=o}
 $('data').classList.toggle('sy',!!(SU&&cst==1)||sy==1);bkw()}
 const accClick=async e=>{const b=e.target.closest('button');if(!b||!SB)return;const a=b.dataset.ac;AS.msg='';
 if(a=='priv'){$('prsheet').classList.add('open');return}
 const em=()=>(($('aem')||{}).value||'').trim(),pw=()=>(($('apw')||{}).value||'');
 const busy=t=>{b.disabled=true;b.textContent=t},okEm=x=>/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(x);
+if(a=='eye'){const i=$('apw');if(i){i.type=i.type=='password'?'text':'password';b.textContent=i.type=='password'?'Voir':'Cacher'}AS.msg=AS.msg0||'';return}
+if(a=='chpw'){AS={step:'chpw'};acUI();return}
+if(a=='resend'){busy('Envoi…');try{const {error}=await SB.auth.resend({type:'signup',email:AS.email,options:{emailRedirectTo:location.origin+location.pathname}});AS.msg=error?errMsg(error):"E-mail de confirmation renvoyé (regarde aussi les spams).";AS.unconf=!!error}catch(x){AS.msg=errMsg(x)}acUI();return}
 if(a=='new'){AS={step:'new',email:em()};acUI();return}
 if(a=='login'||a=='signup'||a=='forgot'){const e1=em();AS.email=e1;if(!okEm(e1)){AS.msg='Adresse e-mail invalide';acUI();return}
 if(a=='forgot'){busy('Envoi…');try{const {error}=await SB.auth.resetPasswordForEmail(e1,{redirectTo:location.origin+location.pathname});AS.msg=error?errMsg(error):"Si un compte existe, un e-mail de réinitialisation vient d'être envoyé. Ouvre le lien qu'il contient : il te permettra de choisir un nouveau mot de passe."}catch(x){AS.msg=errMsg(x)}acUI();return}
-const p1=pw();if(p1.length<6){AS.msg='Mot de passe : 6 caractères minimum.';acUI();return}
-if(a=='login'){busy('Connexion…');try{const {error}=await SB.auth.signInWithPassword({email:e1,password:p1});if(error)AS.msg=errMsg(error);else{AS={step:0};toast('Connecté')}}catch(x){AS.msg=errMsg(x)}acUI();return}
+const p1=pw();if(a=='login'&&!p1){AS.msg='Entre ton mot de passe.';acUI();return}if(a=='signup'&&!pwOk(p1)){AS.msg='Mot de passe trop faible : 8 caractères minimum, avec une minuscule, une majuscule et un chiffre.';acUI();return}
+if(a=='login'){busy('Connexion…');try{const {error}=await SB.auth.signInWithPassword({email:e1,password:p1});if(error){AS.msg=errMsg(error);AS.unconf=String(error.message||'').toLowerCase().includes('not confirmed')}else{AS={step:0};toast('Connecté')}}catch(x){AS.msg=errMsg(x)}acUI();return}
 busy('Création…');try{const {data,error}=await SB.auth.signUp({email:e1,password:p1,options:{emailRedirectTo:location.origin+location.pathname}});
 if(error)AS.msg=errMsg(error);else if(data&&data.user&&data.user.identities&&!data.user.identities.length)AS={step:0,email:e1,msg:'Un compte existe déjà avec cette adresse : connecte-toi.'};
 else if(data&&data.session){AS={step:0};toast('Compte créé')}else AS={step:0,email:e1,msg:"Compte créé ! Clique sur le lien de confirmation reçu par e-mail (regarde aussi les spams), puis reviens te connecter ici."}}catch(x){AS.msg=errMsg(x)}acUI();return}
-if(a=='newpw'){const p1=pw();if(p1.length<6){AS.msg='Mot de passe : 6 caractères minimum.';acUI();return}busy('Enregistrement…');try{const {error}=await SB.auth.updateUser({password:p1});if(error)AS.msg=errMsg(error);else{AS={step:0};toast('Mot de passe modifié')}}catch(x){AS.msg=errMsg(x)}acUI();return}
+if(a=='newpw'){const p1=pw();if(!pwOk(p1)){AS.msg='Mot de passe trop faible : 8 caractères minimum, avec une minuscule, une majuscule et un chiffre.';acUI();return}busy('Enregistrement…');try{const {error}=await SB.auth.updateUser({password:p1});if(error)AS.msg=errMsg(error);else{AS={step:0};toast('Mot de passe modifié')}}catch(x){AS.msg=errMsg(x)}acUI();return}
 if(a=='back'){AS={step:0,email:AS.email};acUI();return}
 if(a=='sync'){cloudPull();return}
 if(a=='out'){if(cpt)await cloudPushNow();try{await SB.auth.signOut({scope:'local'})}catch(x){}try{localStorage.removeItem('lift-uid')}catch(x){}SU=null;cst=0;acq=false;acUI();toast('Déconnecté : tes données restent sur cet appareil');return}
 if(a=='del'){if(!acq){acq=true;acUI();return}acq=false;try{const {error}=await SB.rpc('delete_my_account');if(error){AS.msg=errMsg(error);acUI();return}}catch(x){AS.msg=errMsg(x);acUI();return}try{await SB.auth.signOut({scope:'local'})}catch(x){}try{localStorage.removeItem('lift-uid')}catch(x){}SU=null;cst=0;acUI();toast('Compte supprimé. Tes données restent sur cet appareil.')}};
 $('acc').onclick=$('wacc').onclick=accClick;
+$('acc').oninput=$('wacc').oninput=e=>{if(e.target.id=='apw'&&e.target.dataset.neu){const x=$('pwh');if(x)x.innerHTML=pwHint(e.target.value)}};
 $('acc').onkeydown=$('wacc').onkeydown=e=>{if(e.key=='Enter'){const b=e.currentTarget.querySelector('.cta');if(b)b.click()}};
 $('prok').onclick=()=>$('prsheet').classList.remove('open');
 $('data').addEventListener('click',()=>{acq=false;acUI()});
