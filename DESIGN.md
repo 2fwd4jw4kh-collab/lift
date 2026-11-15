@@ -3,18 +3,19 @@
 Univers : feuille de résultats d'athlétisme. Chaque perf a une marque, un record, un écart.
 
 ## Couleurs (variables CSS dans `index.html`)
+Principe : des neutres et **un seul rouge brique**. Aucune autre couleur.
 | Rôle | Valeur | Usage |
 |---|---|---|
-| `--bg` | `#F1F2EF` | Fond (papier de feuille de résultats) |
-| `--card` | `#FFFFFF` | Blocs, feuilles, barre d'onglets |
-| `--card2` | `#E7E9E5` | Fonds neutres (segments, cases vides) |
-| `--line` | `#D5D8D3` | Filets (couloirs) |
-| `--tx` / `--t2` / `--t3` | `#14161A` / `#4E545B` / `#646A71` | Texte (tous ≥ 4,5:1 sur le fond) |
-| `--red` / `--red-ink` | `#C4361F` / `#A62B17` | Bandeau du haut, action principale, onglet actif / texte rouge |
-| `--pb` | `#1D7A3C` | Record (PB), progression, série validée |
-| `--warn` / `--amber` | `#9A6200` / `#E9A21B` | Recul, alerte / RIR 1 |
+| `--bg` | `#F3F3F1` | Fond |
+| `--card` / `--card2` | `#FFFFFF` / `#E7E9E5` | Blocs / fonds neutres |
+| `--line` | `#D5D8D3` | Filets |
+| `--tx` / `--t2` / `--t3` | `#14161A` / `#4E545B` / `#646A71` | Texte (≥ 4,5:1) |
+| `--red` / `--red-ink` | `#9E2F21` / `#8A2819` | Bandeau du haut, action principale, onglet actif, marque PB, courbe de progression |
 
-Une seule action rouge par écran ; les actions secondaires sont noires (`--tx`) ou en texte. Groupes musculaires (données uniquement) : Pectoraux `#B8460F`, Dos `#2463A8`, Épaules `#966305`, Bras `#14726D`, Jambes `#7A4FB0`, Abdos `#5C6B7A`.
+- Une seule action rouge par écran ; le reste en noir ou en texte.
+- Groupes musculaires : gris `#6E747A`, on les distingue par leur nom, pas par la couleur.
+- RIR : échelle de gris (0 noir, 1 gris foncé, 2 gris clair, 3+ neutre).
+- Comparaison de courbes : rouge, noir, gris.
 
 ## Typographie
 Archivo variable, hébergée dans `fonts/archivo.woff2` (mise en cache hors ligne). Les chiffres, titres et marques sont étroits (`font-stretch: 72%`, graisse 800), façon tableau d'affichage ; le reste est en largeur normale.
@@ -24,8 +25,8 @@ Archivo variable, hébergée dans `fonts/archivo.woff2` (mise en cache hors lign
 Rayons : 4 px (puces, boutons secondaires), 8 px (blocs, boutons), 14 px (haut des feuilles). Les ronds sont réservés aux pastilles RIR, aux points de couleur et aux coches de séries. Pas d'ombres décoratives ni de bandes de couleur sur le côté.
 
 ## Geste signature
-- **PB** (fond vert) : la série bat le record de l'exercice.
-- **SB** (contour vert) : meilleure perf des 8 dernières semaines, sans être un record.
+- **PB** (fond rouge) : la série bat le record de l'exercice.
+- **SB** (contour noir) : meilleure perf des 8 dernières semaines, sans être un record.
 - Liste d'exercices en tableau de résultats : Exercice · Perf · Écart (vs séance précédente).
 
 ## Mouvement
