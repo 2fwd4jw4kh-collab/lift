@@ -160,7 +160,7 @@ input.tx{width:100%;background:var(--bg);border:1px solid var(--line);color:#fff
 <div class="tip2"><b>Utilisation</b> : uniquement pour te connecter et synchroniser tes appareils. Pas de publicité, pas de revente, pas de partage avec des tiers.</div>
 <div class="tip2"><b>Accès</b> : chaque compte ne peut lire et modifier que ses propres données.</div>
 <div class="tip2"><b>Suppression</b> : « Supprimer mon compte » efface immédiatement ton compte et tes données en ligne. Les données de cet appareil restent jusqu'à ce que tu les effaces.</div>
-<div class="tip2"><b>Contact</b> : via la page GitHub du projet.</div>
+<div class="tip2"><b>Contact</b> : <a href="mailto:lift.trainingapp.contact@gmail.com" style="color:var(--lime)">lift.trainingapp.contact@gmail.com</a></div>
 <button class="cta" id="prok">Fermer</button></div></div>
 <div class="sheet" id="live"><div class="panel" id="lp"></div></div>
 <div class="sheet" id="msheet"><div class="panel"><h3>Fusionner l'exercice</h3><div class="mut" id="mtx"></div><div class="fr"><span>Dans</span><select id="mt"></select></div><button class="cta" id="mok">Fusionner</button><button class="ghost" id="mno">Annuler</button></div></div>
@@ -170,7 +170,7 @@ input.tx{width:100%;background:var(--bg);border:1px solid var(--line);color:#fff
 <div class="fr"><span>RIR</span><div class="rirs" id="rirs"></div></div>
 <button class="cta" id="ok">Valider la série</button><button class="ghost" id="pdel" style="display:none"></button><button class="ghost" id="no">Annuler</button></div></div>
 <script>
-const APPV='2026-11-15.5';
+const APPV='2026-11-15.6';
 const M=['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
 const TI=new Date().toISOString().slice(0,10),TD=TI,T0=new Date(TI),dt=s=>new Date(s.length>5?s:'2026-'+s),$=id=>document.getElementById(id);
 const dtl=t=>{const d=new Date(t);return d.getUTCDate()+' '+M[d.getUTCMonth()]},dl=s=>dtl(+dt(s))+(dt(s).getUTCFullYear()!=+TI.slice(0,4)?' '+dt(s).getUTCFullYear():'');
