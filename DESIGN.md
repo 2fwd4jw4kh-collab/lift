@@ -34,3 +34,6 @@ Appui : `scale(.97)`, 140 ms, `cubic-bezier(.23,1,.32,1)`. Feuilles : 320 ms, co
 
 ## Réglages
 Page à part ouverte par le rouage du bandeau (pas un onglet), avec « ‹ Retour ». Liste façon réglages iPhone : libellé à gauche, valeur en gris, chevron. Aucun bouton rouge plein. La zone sensible est isolée en bas, texte rouge, double confirmation. Une pastille blanche sur le rouage signale une sauvegarde à faire ou une synchro en échec.
+
+## Icône
+Trois disques vus de profil, de plus en plus grands, sur une barre blanche : à la fois une barre chargée et une progression. Disques rouge brique #9E2F21, barre blanche, fond noir encre #14161A. Source vectorielle : `icon.svg`.
