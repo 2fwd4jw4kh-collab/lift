@@ -169,6 +169,7 @@ input.tx{width:100%;background:var(--bg);border:1px solid var(--line);color:#fff
 <div class="fr"><span>RIR</span><div class="rirs" id="rirs"></div></div>
 <button class="cta" id="ok">Valider la série</button><button class="ghost" id="pdel" style="display:none"></button><button class="ghost" id="no">Annuler</button></div></div>
 <script>
+const APPV='2026-11-15.3';
 const M=['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
 const TI=new Date().toISOString().slice(0,10),TD=TI,T0=new Date(TI),dt=s=>new Date(s.length>5?s:'2026-'+s),$=id=>document.getElementById(id);
 const dtl=t=>{const d=new Date(t);return d.getUTCDate()+' '+M[d.getUTCMonth()]},dl=s=>dtl(+dt(s))+(dt(s).getUTCFullYear()!=+TI.slice(0,4)?' '+dt(s).getUTCFullYear():'');
@@ -648,7 +649,6 @@ $('data').addEventListener('click',()=>{acq=false;acUI()});
 document.addEventListener('visibilitychange',()=>{if(document.hidden){if(cpt)cloudPushNow()}else if(SU&&linked())cloudPull()});
 sbInit();
 // --- mises à jour ---
-const APPV='2026-11-15.2';
 async function chkUp(){try{const r=await fetch(location.pathname+'?v='+Date.now(),{cache:'no-store'}),t=await r.text(),m=t.match(/const APPV='([^']+)'/);if(m&&m[1]!=APPV)$('upd').style.display='block'}catch(e){}}
 $('upd').onclick=async()=>{$('upd').textContent='Mise à jour…';try{if(cpt)await cloudPushNow()}catch(e){}try{const rg=await navigator.serviceWorker.getRegistration();if(rg)await rg.update()}catch(e){}location.reload()};
 setTimeout(chkUp,2500);document.addEventListener('visibilitychange',()=>{if(!document.hidden)chkUp()});
