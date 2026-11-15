@@ -23,6 +23,7 @@ Utilisé debout dans une salle de sport, souvent d'une main, entre deux séries,
 - Séance en direct avec séries, reps, RIR, repos du programme ; éditeur de programme ; fusion d'exercices ; bilan de la semaine.
 - Comptes optionnels via Supabase (synchronisation), sauvegarde/restauration texte ou fichier, page de confidentialité.
 - Fonctionne hors ligne (service worker). Une seule page `index.html` sans étape de build.
+- Objectifs de programme (masse, force, full body, cardio, calisthénie), cardio court et ressenti post-séance depuis la 2.2.
 - Toutes les fonctions existantes doivent être conservées.
 
 ## Brand Commitments

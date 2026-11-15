@@ -37,3 +37,11 @@ Page à part ouverte par le rouage du bandeau (pas un onglet), avec « ‹ Retou
 
 ## Icône
 Trois disques vus de profil, de plus en plus grands, sur une barre blanche : à la fois une barre chargée et une progression. Disques rouge brique #9E2F21, barre blanche, fond noir encre #14161A. Source vectorielle : `icon.svg`.
+
+## Version 2.2
+- Accueil : phrase du jour selon la situation (jour de séance, séance bouclée + PB, repos, reprise) ; date et avancement de la semaine au-dessus. Régularité déplacée dans Progression. Sauvegarde et allègement réduits à une ligne.
+- Lexique : un « ? » à côté des termes techniques ouvre leur définition ; lexique complet dans les Réglages.
+- Tutoriel en 4 écrans (Lift, RIR, PB/SB, prénom + objectif), « Passer » partout, relançable depuis les Réglages.
+- Séance en direct : « + Ajouter un exercice » (même groupe d'abord) et cardio court (durée, intensité Facile / Soutenu / Dur).
+- Ressenti à cocher avant d'enregistrer ; il ajuste les suggestions suivantes.
+- Objectifs : prise de masse, force pure (1RM estimé), full body, cardio, calisthénie (lest, reps ou secondes). Chaque programme est gardé quand on change d'objectif.
