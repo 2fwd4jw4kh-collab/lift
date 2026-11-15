@@ -249,6 +249,16 @@ html:has(.sheet.open),html:has(.sheet.open) body{overflow:hidden}
 .sgh{display:flex;align-items:center;font-size:var(--f1);font-weight:800;color:var(--t2);text-transform:uppercase;letter-spacing:.06em;padding:12px 0 2px;border-top:1px solid var(--line)}
 .sgh+.exw{border-top:0}
 .chg{flex:none;align-self:center;font-size:11px;font-weight:800;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;padding:0 2px 0 8px}.chg:first-child{padding-left:0}
+
+/* --- 2.5 : muscles travaillés --- */
+.body .bb{fill:#E1E3DF}.body .mn{fill:#CDD1CC}.body .mp{fill:var(--red)}.body .ms{fill:var(--red);fill-opacity:.35}
+.body path,.body circle{stroke:var(--bg);stroke-width:1;stroke-linejoin:round}
+.muc{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--bg);border-radius:var(--r2);padding:8px 12px 8px 8px;margin:6px 0 10px;min-height:64px}
+.muc svg.sm{width:100px;height:auto;flex:none}.muc span{flex:1;min-width:0}.muc b{display:block;font-size:var(--f2);font-weight:700;color:var(--tx)}.muc i{display:block;font-style:normal;font-size:var(--f1);color:var(--t2);margin-top:2px}.muc em{font-style:normal;color:var(--t3);font-size:var(--f4)}
+.card .muc{margin:12px 0 0}
+#mussheet{z-index:16}
+.mubig{background:var(--bg);border-radius:var(--r2);padding:16px 12px 12px;margin:12px 0}.mubig svg{display:block;width:100%;max-height:320px}
+.mul{display:flex;gap:18px;justify-content:center;font-size:var(--f1);color:var(--t2);margin-top:10px}.mul i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px;background:var(--red)}.mul i.ms{opacity:.35}
 /* --- grand écran --- */
 @media(min-width:900px){body{padding-left:96px}
 .tabbar{right:auto;top:0;width:96px;flex-direction:column;justify-content:flex-start;gap:8px;padding:24px 10px;border-top:0;border-right:1px solid var(--line);background:var(--card)}
@@ -299,6 +309,7 @@ html:has(.sheet.open),html:has(.sheet.open) body{overflow:hidden}
 <div class="tip2"><b>Contact</b> : <a href="mailto:lift.trainingapp.contact@gmail.com" style="color:var(--lime)">lift.trainingapp.contact@gmail.com</a></div>
 <button class="cta" id="prok">Fermer</button></div></div>
 <div class="sheet" id="lxsheet"><div class="panel"><h3 id="lxt"></h3><p class="obp" id="lxd"></p><button class="cta" id="lxok">Compris</button><button class="ghost" id="lxall">Voir tout le lexique</button></div></div>
+<div class="sheet" id="mussheet"><div class="panel" id="musp" style="max-height:92dvh;overflow-y:auto"></div></div>
 <div class="sheet" id="objsheet"><div class="panel" id="objp" style="max-height:92dvh;overflow-y:auto"></div></div>
 <div class="sheet" id="live"><div class="panel" id="lp"></div></div>
 <div class="sheet" id="msheet"><div class="panel"><h3>Fusionner l'exercice</h3><div class="mut" id="mtx"></div><div class="fr"><span>Dans</span><select id="mt"></select></div><button class="cta" id="mok">Fusionner</button><button class="ghost" id="mno">Annuler</button></div></div>
@@ -406,7 +417,7 @@ if(cmp){h.innerHTML='<span class="pill">Évolution du poids en %</span>'+sel.map
 const k=sel[0],a=pts(k),i=pick&&pick.k==k?pick.i:a.length-1,p=a[i],c=val(p,met),b=val(a[0],met),d=c-b;
 const big=met=='r'?'RIR '+R(p[4]):(D[k].bw&&met=='w'&&!p[1]?rtx(p)+'<small> '+(D[k].tm?'s':'reps')+'</small>':f1(c)+'<small> kg</small>');
 h.innerHTML=`<span class="pill"><em class="gd" style="background:${gcol(k)};margin-right:6px"></em>${D[k].g}</span><div class="hn">${D[k].n}</div><div class="big">${big}</div>
-<div class="sub">${f1(p[1])} kg × ${rtx(p)} · RIR ${R(p[4])} · ${p[3]??'–'} séries · ${dl(p[0])}</div>`+(met=='r'?'':`<span class="d${d>0?' up':''}">${d>=0?'▲ +':'▼ '}${f1(d)} kg (${d>=0?'+':''}${Math.round(d/b*100)} %)</span>`)+tips(k);
+<div class="sub">${f1(p[1])} kg × ${rtx(p)} · RIR ${R(p[4])} · ${p[3]??'–'} séries · ${dl(p[0])}</div>`+(met=='r'?'':`<span class="d${d>0?' up':''}">${d>=0?'▲ +':'▼ '}${f1(d)} kg (${d>=0?'+':''}${Math.round(d/b*100)} %)</span>`)+musCard(k,D[k].n,D[k].g)+tips(k);
 const rec=Math.max(...D[k].s.map(x=>x[1])),g=(a.at(-1)[1]/a[0][1]-1)*100,rr=a.filter(x=>x[4]!=null),ra=rr.length?rr.reduce((s,x)=>s+x[4],0)/rr.length:null;
 $('kpis').innerHTML=`<div class="kpi"><b>${f1(rec)} kg</b><span>Record</span></div><div class="kpi"><b>${g>=0?'+':''}${Math.round(g)} %</b><span>Sur la période</span></div><div class="kpi"><b>${ra==null?'–':f1(ra)}</b><span>RIR moyen</span></div>`}
 function draw(){const keys=cmp?sel:[sel[0]],m=cmp?'w':met,pl=34,pr=12,pt=14,pb=26;
@@ -546,7 +557,7 @@ function setTick(i){const t=L.it[L.i],x=t.st[i];if(!x)return;x.d=!x.d;if(x.d&&wi
 function setAdd(n){const t=L.it[L.i];if(n>0&&t.st.length<12){const l=t.st.at(-1);t.st.push({w:l.w,r:l.r,d:false});t.ok=false}else if(n<0&&t.st.length>1)t.st.pop();liveR()}
 function liveR(){if(L.sum)return liveS();if(L.rp)return liveRp();if(L.ad)return liveAdd();if(L.it[L.i]&&L.it[L.i].e.c)return liveC();
 const t=L.it[L.i],e=t.e,o=D[t.k],p=o&&o.s.at(-1),sg=fbSug(t)||bwSug(t)||psug(t),dn=L.it.filter(x=>x.ok).length,col=GC[e.g]||'#9E2F21',rr=e.rl==e.rh?e.rl:e.rl+'-'+e.rh,nd=t.st.filter(x=>x.d).length;
-$('lp').innerHTML=liveHd()+liveNav()+`<div class="mut">Exercice ${L.i+1} / ${L.it.length} · <em class="gd" style="background:${col};margin:0 5px 0 2px"></em>${e.g}</div><h3 style="margin:2px 0 8px">${esc(e.n)}</h3>${t.repl?`<div class="gp" style="margin:-4px 0 8px">Remplace : ${esc(t.repl)}</div>`:''}
+$('lp').innerHTML=liveHd()+liveNav()+`<div class="mut">Exercice ${L.i+1} / ${L.it.length} · <em class="gd" style="background:${col};margin:0 5px 0 2px"></em>${e.g}</div><h3 style="margin:2px 0 8px">${esc(e.n)}</h3>${musCard(t.k,e.n,e.g)}${t.repl?`<div class="gp" style="margin:-4px 0 8px">Remplace : ${esc(t.repl)}</div>`:''}
 <div class="tip2" style="margin:0 0 8px">Objectif : ${e.s} × ${e.lo}-${e.hi} · RIR ${rr} · repos ${e.rest}${e.ss?'<br>'+esc(e.ss):''}</div>
 <div class="gp">${p?`Dernière fois : ${f1(p[1])} kg × ${rtx(p)} · ${p[3]??'–'} séries · RIR ${R(p[4])}`:'Première fois sur cet exercice'}</div>${orm(t,p)}<div class="tip2">${sg}</div>
 <div class="gp" style="margin-top:12px">Coche chaque série terminée : le repos démarre tout seul. ${nd}/${t.st.length} faite${nd>1?'s':''}</div>
@@ -795,6 +806,123 @@ setTimeout(chkUp,2500);document.addEventListener('visibilitychange',()=>{if(!doc
 render();
 
 function byG(ks){const F=['Pectoraux','Épaules','Dos','Bras','Jambes','Abdos'],o=c=>{const i=F.indexOf(c);return i<0?99:i};return ks.slice().sort((a,b)=>o(D[a].g)-o(D[b].g))}
+
+// ===== Lift 2.5 : muscles travaillés (illustrations originales) =====
+function MZ(){return{
+pecs:["Pectoraux","la poitrine, qui pousse les bras vers l'avant"],
+delt_ant:["Avant des épaules","lève le bras devant toi"],
+delt_lat:["Côté des épaules","élargit la carrure en levant le bras sur le côté"],
+delt_post:["Arrière des épaules","tire le bras vers l'arrière et redresse la posture"],
+biceps:["Biceps","l'avant du bras, qui plie le coude"],
+triceps:["Triceps","l'arrière du bras, qui tend le coude"],
+avbras:["Avant-bras","la force de la poigne"],
+abdos:["Abdominaux","gainent le ventre et enroulent le buste"],
+obliques:["Obliques","les côtés de la taille, qui stabilisent le buste"],
+dorsaux:["Grands dorsaux","le « V » du dos, qui tire les bras vers le bas et vers toi"],
+haut_dos:["Haut du dos","trapèzes et rhomboïdes, qui resserrent les omoplates"],
+lombaires:["Lombaires","le bas du dos, qui le garde droit"],
+fessiers:["Fessiers","étendent la hanche, moteur des poussées de jambes"],
+quads:["Quadriceps","l'avant de la cuisse, qui tend le genou"],
+ischios:["Ischio-jambiers","l'arrière de la cuisse, qui plie le genou"],
+mollets:["Mollets","font monter sur la pointe des pieds"]}}
+// [principaux, secondaires, précision]
+function MX(){const P='pecs',DA='delt_ant',DL='delt_lat',DP='delt_post',BI='biceps',TR='triceps',AV='avbras',AB='abdos',OB='obliques',DO='dorsaux',HD='haut_dos',LO='lombaires',FE='fessiers',QU='quads',IS='ischios',MO='mollets';return{
+dcs:[[P],[DA,TR],"Le guidage de la Smith te laisse pousser lourd en sécurité."],
+dc:[[P],[DA,TR],"Le mouvement de base pour la poitrine."],
+ih:[[P],[DA,TR],"La pente du banc vise surtout le haut des pectoraux."],
+pcb:[[P],[DA],"Ramener les mains de bas en haut cible le haut des pectoraux."],
+pomp:[[P],[TR,DA,AB],"Garde le corps gainé, bien aligné."],
+dips:[[P,TR],[DA],"Penche-toi en avant pour les pectoraux, reste droit pour les triceps."],
+ppi:[[P,DA],[TR],"Pieds surélevés : plus de travail pour le haut des pectoraux et les épaules."],
+tv:[[DO],[BI,HD],"Tire les coudes vers les hanches, la poitrine sortie."],
+tvs:[[DO],[BI],"Prise serrée : plus d'amplitude pour les dorsaux."],
+th:[[HD,DO],[BI,DP],"Serre les omoplates en fin de mouvement."],
+rb:[[DO,HD],[BI,LO,DP],"Dos bien droit : les lombaires travaillent pour le tenir."],
+trl:[[DO],[BI,HD],"Le lest rend chaque répétition plus dure."],
+trac:[[DO],[BI,HD],"Le grand classique pour élargir le dos."],
+chin:[[DO,BI],[HD],"Paumes vers toi : les biceps participent davantage."],
+rinv:[[HD,DO],[BI,DP],"Plus tes pieds sont loin, plus c'est dur."],
+susp:[[AV],[DO],"Travaille la poigne et décompresse le dos."],
+sdt:[[IS,FE,LO],[HD,AV,QU],"Mouvement global : tout l'arrière du corps travaille."],
+elp:[[DL],[],"La poulie garde la tension sur toute l'amplitude."],
+el:[[DL],[],"Monte les bras jusqu'à l'horizontale, sans élan."],
+de:[[DA,DL],[TR],"Pousse au-dessus de la tête, dos calé."],
+dm:[[DA,DL],[TR,HD,AB],"Debout, les abdos gainent pour stabiliser."],
+fp:[[DP,HD],[],"Excellent pour la posture et la santé des épaules."],
+oi:[[DP],[HD],"Écarte les bras vers l'arrière, coudes légèrement fléchis."],
+tp:[[TR],[],"Coudes collés au corps, seul l'avant-bras bouge."],
+tpo:[[TR],[],"Bras au-dessus de la tête : étire et vise le long chef du triceps."],
+cm:[[BI,AV],[],"Prise neutre : les avant-bras travaillent beaucoup."],
+cb:[[BI],[AV],"Coudes fixes, monte sans balancer."],
+cin:[[BI],[],"Banc incliné : le biceps travaille étiré."],
+cp:[[AB],[OB],"Enroule le buste, ce ne sont pas les bras qui tirent."],
+rj:[[AB],[OB],"Monte les jambes sans élan, bas du dos plaqué."],
+rjs:[[AB],[OB,AV],"Suspendu : les avant-bras tiennent, les abdos montent les jambes."],
+gain:[[AB],[OB,LO],"Corps aligné de la tête aux talons, sans creuser le dos."],
+pc:[[QU,FE],[IS],"Pieds plus hauts sur le plateau : plus de fessiers."],
+sq:[[QU,FE],[IS,LO,AB],"Le roi des exercices de jambes."],
+sqpc:[[QU,FE],[IS],"Descends au moins cuisses parallèles au sol."],
+rdl:[[IS,FE],[LO],"Hanches vers l'arrière, jambes presque tendues."],
+fb:[[QU,FE],[IS],"Une jambe à la fois : corrige les déséquilibres."],
+fent:[[QU,FE],[IS],"Grand pas, genou arrière proche du sol."],
+pist:[[QU,FE],[AB,MO],"Sur une jambe : équilibre et force."],
+lc:[[IS],[MO],"Isole l'arrière de la cuisse."],
+lex:[[QU],[],"Isole l'avant de la cuisse."],
+mol:[[MO],[],"Monte haut, redescends lentement."]}}
+function MXC(){return{
+c_rameur:[['dorsaux','quads'],['ischios','biceps','fessiers'],"Cardio complet : jambes, dos et bras à chaque coup de rame."],
+c_velo:[['quads'],['fessiers','mollets'],"Cardio doux pour les articulations, centré sur les cuisses."],
+c_tapis:[['mollets','quads'],['fessiers'],"Marche inclinée ou course : cardio et bas du corps."],
+c_elliptique:[['quads','fessiers'],['pecs','dorsaux'],"Cardio sans impact, bras et jambes ensemble."],
+c_cordeasauter:[['mollets'],['delt_ant','avbras'],"Cardio intense, travaille la coordination."]}}
+function musOf(k,n,g){const m=MX()[k]||MXC()[k];if(m)return m;const t=String(n||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+const kw=[['curl',[['biceps'],['avbras']]],['marteau',[['biceps','avbras'],[]]],['triceps',[['triceps'],[]]],['dips',[['pecs','triceps'],['delt_ant']]],['pompe',[['pecs'],['triceps','delt_ant']]],['couche',[['pecs'],['delt_ant','triceps']]],['ecarte',[['pecs'],['delt_ant']]],['butterfly',[['pecs'],[]]],['militaire',[['delt_ant','delt_lat'],['triceps']]],['epaule',[['delt_ant','delt_lat'],['triceps']]],['elevation',[['delt_lat'],[]]],['oiseau',[['delt_post'],['haut_dos']]],['face pull',[['delt_post','haut_dos'],[]]],['traction',[['dorsaux'],['biceps']]],['tirage',[['dorsaux'],['biceps','haut_dos']]],['rowing',[['dorsaux','haut_dos'],['biceps']]],['shrug',[['haut_dos'],[]]],['souleve',[['ischios','fessiers','lombaires'],['haut_dos']]],['squat',[['quads','fessiers'],['ischios']]],['presse',[['quads','fessiers'],['ischios']]],['fente',[['quads','fessiers'],['ischios']]],['hip thrust',[['fessiers'],['ischios']]],['leg curl',[['ischios'],[]]],['extension',[['quads'],[]]],['mollet',[['mollets'],[]]],['crunch',[['abdos'],['obliques']]],['gainage',[['abdos'],['obliques']]],['abdo',[['abdos'],[]]],['oblique',[['obliques'],['abdos']]]];
+for(const[w,v]of kw)if(t.includes(w))return[v[0],v[1],''];
+const G={'Pectoraux':[['pecs'],['delt_ant','triceps']],'Épaules':[['delt_ant','delt_lat'],[]],'Dos':[['dorsaux','haut_dos'],['biceps']],'Bras':[['biceps','triceps'],[]],'Jambes':[['quads','fessiers'],['ischios']],'Abdos':[['abdos'],['obliques']],'Cardio':[['quads'],['mollets']]}[g]||[[],[]];return[G[0],G[1],'']}
+// silhouette : vue de face (x 0-100) et de dos (x 110-210), hauteur 200
+function bodySVG(pr,se,cls){const on=z=>pr.includes(z)?'mp':se.includes(z)?'ms':'mn';
+const sym=(d,z)=>`<path class="${on(z)}" d="${d}"/>`;
+const F=`<g>
+<circle class="bb" cx="50" cy="15" r="10"/><path class="bb" d="M45 24h10v8H45z"/>
+<path class="bb" d="M30 34q20-6 40 0l2 58q-22 6-44 0z"/>
+${sym('M33 37q8-3 16-1v16q-9 3-17-2q-1-8 1-13zM67 37q-8-3-16-1v16q9 3 17-2q1-8-1-13z','pecs')}
+${sym('M27 35q5-4 9-1l-1 12q-4 2-9-1zM73 35q-5-4-9-1l1 12q4 2 9-1z','delt_ant')}
+${sym('M27 35q-7 1-8 9q1 5 4 6l4-3zM73 35q7 1 8 9q-1 5-4 6l-4-3z','delt_lat')}
+${sym('M41 55h18v34q-9 4-18 0z','abdos')}
+${sym('M33 56l7 1v31l-6-3q-2-14-1-29zM67 56l-7 1v31l6-3q2-14 1-29z','obliques')}
+${sym('M21 48q5-2 8 2l-1 20q-4 3-8 0q-2-11 1-22zM79 48q-5-2-8 2l1 20q4 3 8 0q2-11-1-22z','biceps')}
+${sym('M18 72q5-2 8 1l-2 26q-3 2-6 0q-2-14 0-27zM82 72q-5-2-8 1l2 26q3 2 6 0q2-14 0-27z','avbras')}
+<circle class="bb" cx="20" cy="104" r="3.5"/><circle class="bb" cx="80" cy="104" r="3.5"/>
+<path class="bb" d="M30 92q20 6 40 0l-1 10H31z"/>
+${sym('M31 101q9-2 18 2l-1 40q-8 3-14 0q-5-20-3-42zM69 101q-9-2-18 2l1 40q8 3 14 0q5-20 3-42z','quads')}
+<path class="bb" d="M35 145q6 3 12 0v6H35zM65 145q-6 3-12 0v6h12z"/>
+${sym('M35 152q6-2 12 0l-1 32q-5 3-10 0q-3-16-1-32zM65 152q-6-2-12 0l1 32q5 3 10 0q3-16 1-32z','mollets')}
+<path class="bb" d="M35 186h11l2 6H33zM65 186H54l-2 6h15z"/></g>`;
+const B=`<g transform="translate(110 0)">
+<circle class="bb" cx="50" cy="15" r="10"/>
+<path class="bb" d="M30 34q20-6 40 0l2 58q-22 6-44 0z"/>
+${sym('M42 24h16l10 10l-12 4l-6 22l-6-22l-12-4z','haut_dos')}
+${sym('M27 35q5-4 9-1l1 11q-5 2-10-1zM73 35q-5-4-9-1l-1 11q5 2 10-1z','delt_post')}
+${sym('M27 35q-7 1-8 9q1 5 4 6l4-3zM73 35q7 1 8 9q-1 5-4 6l-4-3z','delt_lat')}
+${sym('M33 42l11 3l5 20v18q-8-2-14-8q-4-16-2-33zM67 42l-11 3l-5 20v18q8-2 14-8q4-16 2-33z','dorsaux')}
+${sym('M43 75q7 4 14 0v14q-7 3-14 0z','lombaires')}
+${sym('M21 47q5-2 8 2l-1 21q-4 3-8 0q-2-11 1-23zM79 47q-5-2-8 2l1 21q4 3 8 0q2-11-1-23z','triceps')}
+${sym('M18 72q5-2 8 1l-2 26q-3 2-6 0q-2-14 0-27zM82 72q-5-2-8 1l2 26q3 2 6 0q2-14 0-27z','avbras')}
+<circle class="bb" cx="20" cy="104" r="3.5"/><circle class="bb" cx="80" cy="104" r="3.5"/>
+${sym('M30 91q10-2 19 2v17q-10 3-19-2q-2-9 0-17zM70 91q-10-2-19 2v17q10 3 19-2q2-9 0-17z','fessiers')}
+${sym('M31 112q9 3 18 1l-1 30q-8 3-14 0q-4-15-3-31zM69 112q-9 3-18 1l1 30q8 3 14 0q4-15 3-31z','ischios')}
+<path class="bb" d="M35 145q6 3 12 0v6H35zM65 145q-6 3-12 0v6h12z"/>
+${sym('M34 152q7-3 13 1l-1 30q-6 3-11 0q-3-15-1-31zM66 152q-7-3-13 1l1 30q6 3 11 0q3-15 1-31z','mollets')}
+<path class="bb" d="M35 186h11l2 6H33zM65 186H54l-2 6h15z"/></g>`;
+return`<svg class="body ${cls||''}" viewBox="0 0 210 196" role="img" aria-label="Muscles travaillés : ${pr.map(z=>MZ()[z][0]).join(', ')}">${F}${B}</svg>`}
+function musCard(k,n,g){const[pr,se]=musOf(k,n,g);if(!pr.length)return'';const Z=MZ();
+return`<button class="muc" data-mus="${k}" data-mn="${esc(n||'')}" data-mg="${esc(g||'')}">${bodySVG(pr,se,'sm')}<span><b>${pr.map(z=>Z[z][0]).join(' · ')}</b>${se.length?`<i>Aussi : ${se.map(z=>Z[z][0].toLowerCase()).join(', ')}</i>`:''}</span><em>›</em></button>`}
+function openMus(k,n,g){const[pr,se,tip]=musOf(k,n,g),Z=MZ();
+$('musp').innerHTML=`<h3>${esc(n)}</h3><div class="mut">Muscles travaillés</div><div class="mubig">${bodySVG(pr,se,'lg')}<div class="mul"><span><i class="mp"></i>Principaux</span><span><i class="ms"></i>En soutien</span></div></div>
+<p class="obp">${pr.map(z=>`<b>${Z[z][0]}</b> : ${Z[z][1]}.`).join(' ')}${se.length?` En soutien : ${se.map(z=>Z[z][0].toLowerCase()).join(', ')}.`:''}</p>${tip?`<div class="tip2">${tip}</div>`:''}<button class="cta" id="musok">Compris</button>`;
+$('mussheet').classList.add('open')}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-mus]');if(b){e.stopPropagation();openMus(b.dataset.mus,b.dataset.mn,b.dataset.mg);return}if(e.target.id=='musok')$('mussheet').classList.remove('open')},true);
+
 // ===== Lift 2.2 : accueil, séance (ajout + cardio), tutoriel, lexique, ressenti, objectifs =====
 function xDates(){const d=(XS&&XS.d)||{};return Object.keys(d).filter(k=>d[k].c&&d[k].c.length)}
 function ck(n){return 'c_'+String(n).toLowerCase().normalize('NFD').replace(/[^a-z]/g,'')}
@@ -882,7 +1010,7 @@ const q=D[e.k]&&D[e.k].s.at(-1),lc=e.c?cLast(e.n):null;
 const it=e.c?{k:e.k,e,st:[],cm:lc?lc.m:e.min,ci:lc?lc.i:e.int,ok:false,add:1}:{k:e.k,e,st:mkSt(q?q[1]:(e.w||0),q&&q[2]?q[2]:e.lo,e.s),x:q&&q[4]!=null?q[4]:e.rh,ok:false,add:1};
 L.it.splice(L.i+1,0,it);L.ad=false;L.ag=null;L.i++;loadF();liveR();toast(e.n+' ajouté')}
 function liveC(){const t=L.it[L.i],I=INT(),lc=cLast(t.e.n);
-$('lp').innerHTML=liveHd()+liveNav()+`<div class="mut">Exercice ${L.i+1} / ${L.it.length} · Cardio</div><h3 style="margin:2px 0 8px">${esc(t.e.n)}</h3>
+$('lp').innerHTML=liveHd()+liveNav()+`<div class="mut">Exercice ${L.i+1} / ${L.it.length} · Cardio</div><h3 style="margin:2px 0 8px">${esc(t.e.n)}</h3>${musCard(t.k,t.e.n,'Cardio')}
 <div class="gp">${lc?`Dernière fois : ${lc.m} min · ${I[lc.i].toLowerCase()}`:'Première fois sur ce cardio'}</div>
 <div class="fr"><span>Durée</span><div class="st"><button data-cm="-1" aria-label="Une minute de moins">−</button><b>${t.cm} min</b><button data-cm="1" aria-label="Une minute de plus">+</button></div></div>
 <div class="fr"><span>Intensité</span><div class="cats" style="padding:0">${I.map((x,i)=>`<button data-ci="${i}" class="${t.ci==i?'on':''}">${x}</button>`).join('')}</div></div>
@@ -923,7 +1051,7 @@ function fbRow(d){const f=XS.d&&XS.d[d]&&XS.d[d].f;if(!f)return'';const T=Object
 function sessSub(n,tv,d){const x=XS.d&&XS.d[d],cm=((x&&x.c)||[]).reduce((a,c)=>a+c.m,0),p=[];if(n)p.push(n+' exercice'+(n>1?'s':'')+' · '+tv+' série'+(tv>1?'s':''));if(cm)p.push(cm+' min de cardio');return p.join(' · ')}
 </script><script>
 // --- Réglages : page à part ouverte par le rouage ---
-var PV=window.PV||'t';const VER='2.4';let wq=0;
+var PV=window.PV||'t';const VER='2.5';let wq=0;
 function hdr(){const r=view=='r';$('back').hidden=!r;$('gear').hidden=r;$('mo').hidden=r;$('hi').textContent=r?'Réglages':greet()}
 const srow=(k,l,v,al)=>`<button class="srow" data-r="${k}"><span>${l}</span>${v!=null?`<em${al?' class="al"':''}>${v}</em>`:''}<i>›</i></button>`;
 function setR(){const el=$('v-r');if(!el)return;const bkOld=!BK||Date.now()-BK>12096e5,
@@ -971,7 +1099,7 @@ addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',onS
 $('cgear').onclick=()=>$('gear').click();$('cback').onclick=()=>$('back').click();
 cbarSync();
 // --- feuilles : poignée, glisser pour fermer, toucher le fond pour fermer ---
-const CLOSE={sheet:'no',psheet:'pno',msheet:'mno',bsheet:'bno',dsheet:'dno',prsheet:'prok',lxsheet:'lxok'};
+const CLOSE={mussheet:'musok',sheet:'no',psheet:'pno',msheet:'mno',bsheet:'bno',dsheet:'dno',prsheet:'prok',lxsheet:'lxok'};
 const locked=s=>s.id=='live'||s.id=='wsheet'||(s.id=='osheet'&&!PF.ob);
 function closeSheet(s){const p=s.querySelector('.panel');s.classList.remove('drag');p.style.transform='';s.style.backgroundColor='';const b=CLOSE[s.id]&&$(CLOSE[s.id]);if(b)b.click();else s.classList.remove('open')}
 document.querySelectorAll('.sheet').forEach(s=>{const p=s.querySelector('.panel');if(!p)return;let g=null;

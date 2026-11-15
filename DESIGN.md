@@ -58,3 +58,6 @@ Trois disques vus de profil, de plus en plus grands, sur une barre blanche : à 
 ## Version 2.4
 - Notion de volume retirée partout (séances, Progression, graphique, lexique) ; les séances affichent le nombre de séries.
 - Exercices regroupés par muscle (Pectoraux, Épaules, Dos, Bras, Jambes, Abdos) dans Séances, la dernière séance et les puces de Progression.
+
+## Version 2.5 : muscles travaillés
+Illustrations originales (pas reprises d'un autre site) : silhouette de face et de dos en gris neutre, muscles principaux en rouge brique plein, muscles en soutien en rouge à 35 %. Une carte compacte (mini-silhouette + noms) sous le nom de l'exercice en séance et dans Progression ; un toucher ouvre la grande illustration, une explication simple de chaque muscle et un conseil d'exécution. Les exercices créés à la main sont reconnus par mots-clés (curl, squat, rowing…) ou, à défaut, par leur groupe.
