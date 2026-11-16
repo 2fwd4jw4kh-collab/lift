@@ -308,3 +308,34 @@ details.adv{margin-top:8px;border-top:1px solid var(--line);padding-top:8px}deta
 .chart svg{max-height:380px}.toast{bottom:32px}}
 @media(min-width:1700px){.app{max-width:1500px}#sess{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(prefers-reduced-motion:reduce){.sheet.open .panel{animation:none}.toast{animation:shf 150ms ease}.chip:active,.row:active,.ex:active,.cta:active,.st button:active,.rirs button:active{transform:none}}
+
+/* ===== 3.2 : accessibilité et styles sortis du HTML (audit du 16/11/2026) ===== */
+[hidden]{display:none!important}
+/* lien d'évitement : invisible tant qu'on n'arrive pas dessus au clavier */
+.skip{position:fixed;left:12px;top:calc(env(safe-area-inset-top,0px) + 8px);z-index:var(--z-pop);background:var(--tx);color:#fff;font-weight:700;padding:11px 16px;border-radius:var(--r2);text-decoration:none;transform:translateY(-200%)}
+.skip:focus{transform:none;outline:3px solid var(--red);outline-offset:2px}
+#contenu:focus{outline:0}
+/* libellés visibles des champs */
+label.gh{display:block}
+.fr>label{flex:none}
+#nw label.gh{margin-top:4px}
+/* bouton « Nouvelle version » : texte blanc sur encre (17:1) */
+.upd{position:fixed;left:50%;transform:translateX(-50%);top:calc(10px + env(safe-area-inset-top,0px));z-index:var(--z-alert);background:var(--tx);color:#fff;font-weight:700;padding:11px 18px;border-radius:var(--r2);box-shadow:0 8px 24px rgba(20,22,26,.25);white-space:nowrap}
+/* légende RIR (mêmes gris que les pastilles) */
+.lgs{margin:-6px 0 12px}.lg i.lr0{background:var(--tx)}.lg i.lr1{background:var(--amber)}.lg i.lr2{background:var(--rir2)}.lg i.lr3{background:var(--card2);border:1px solid var(--t3)}
+/* feuilles qui défilent */
+.panel.scr{max-height:92dvh;overflow-y:auto}
+/* fenêtre de bienvenue (compte) */
+.whd{display:flex;align-items:center;gap:12px;margin-bottom:6px}.whd img{border-radius:12px}.whd h3{margin:0;font-size:24px}
+.obi{border-radius:16px}
+.h3s{margin:22px 0 4px}.h3v{margin:18px 0 2px;font-size:16px}
+/* mot de passe avec bouton « Voir » */
+.pwb{position:relative}.pwb input{padding-right:64px}.pwb .x{position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:13px}.pwh{margin:-2px 0 6px}
+.ctx{color:var(--tx)}
+/* accueil : carte « prochaine séance » */
+.nx-res{border:1px solid var(--acc);border-radius:var(--r3);padding:12px;margin-bottom:12px}
+.nxb{display:flex;gap:8px}.nxb .cta{margin:0;flex:2}.nxb .ghost{margin:0;width:auto;flex:1}
+/* séance : autre exercice */
+#rnm{flex:1;min-width:0;background:var(--bg);border:1px solid var(--line);color:var(--tx);border-radius:12px;padding:11px 12px;font:inherit;outline:0}.rnb{float:none;margin-left:8px}
+/* petits utilitaires */
+.m0{margin:0}.mt4{margin-top:4px}.mt6{margin-top:6px}.mt10{margin-top:10px}.mt12{margin-top:12px}.mb12{margin-bottom:12px}.mr8{margin-right:8px}.p0{padding:0}.b0{border:0}.tc{text-align:center}

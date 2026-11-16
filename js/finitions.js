@@ -1,6 +1,7 @@
 // ===== Lift 3.0 : finitions =====
 (function(){
 try{navigator.storage&&navigator.storage.persist&&navigator.storage.persisted().then(p=>{if(!p)navigator.storage.persist()})}catch(e){}
+$('sfailb').addEventListener('click',()=>$('data').click());
 $('dcsv').onclick=csvOut;$('dhv').onclick=()=>$('dhvf').click();
 $('dhvf').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;const j=snap();try{const[ne,np]=importCSV(await f.text());if(!np){toast('Aucune nouvelle séance trouvée dans ce fichier');return}save();render();toast(`Import : ${np} perf${np>1?'s':''} ajoutée${np>1?'s':''}, ${ne} nouvel${ne>1?'s':''} exercice${ne>1?'s':''}`,j)}catch(x){toast('Fichier non reconnu : exporte tes séances en CSV depuis Hevy ou Strong')}};
 window.shareLift=async function(){const u=location.origin+location.pathname,t='Lift : mon carnet de muscu, gratuit, sans pub, qui marche hors ligne et propose la bonne charge à chaque série.';
@@ -19,13 +20,23 @@ try{const q=new URLSearchParams(location.search);if(q.get('go')=='start'&&PF.ob)
 window.giveFeedback=function(){const ua=navigator.userAgent,dev=/iPhone/.test(ua)?'iPhone':/iPad/.test(ua)?'iPad':/Android/.test(ua)?'Android':'Ordinateur',st=matchMedia('(display-mode: standalone)').matches?'installée':'navigateur';
 const body=`Ce qui me plaît :\n\n\nCe qui me gêne ou m'a bloqué :\n\n\nUne idée :\n\n\n—\nLift ${VER} · ${dev} · ${st}`;
 location.href='mailto:lift.trainingapp.contact@gmail.com?subject='+encodeURIComponent('Mon avis sur Lift')+'&body='+encodeURIComponent(body)};
-// Statistiques anonymes : 3 événements, identifiant aléatoire, aucune donnée d'entraînement envoyée
-const QK='lift-evq',on=()=>PF.stat!==false;
+// Statistiques anonymes : 5 événements, identifiant aléatoire, aucune donnée d'entraînement envoyée
+// open = ouverture (1 fois par jour), start = tutoriel terminé, first_session, session, signup = compte créé
+const QK='lift-evq',on=()=>PF.stat!==false,CORE=['start','first_session','session'];
 function aid(){try{let a=localStorage.getItem('lift-aid');if(!a){a=crypto.randomUUID?crypto.randomUUID():'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{const r=Math.random()*16|0;return(c=='x'?r:(r&3|8)).toString(16)});localStorage.setItem('lift-aid',a)}return a}catch(e){return null}}
-function flush(){if(!on()||!navigator.onLine)return;let q;try{q=JSON.parse(localStorage.getItem(QK)||'[]')}catch(e){q=[]}if(!q.length)return;
-fetch(SB_URL+'/rest/v1/lift_events',{method:'POST',headers:{apikey:SB_KEY,Authorization:'Bearer '+SB_KEY,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(q),keepalive:true}).then(r=>{if(r.ok){try{localStorage.setItem(QK,'[]')}catch(e){}}}).catch(()=>{})}
+// Envoi en deux lots : les 3 événements historiques d'un côté, les nouveaux (open, signup) de l'autre.
+// Tant que la table Supabase n'accepte pas encore les nouveaux (erreur 400), ils sont abandonnés sans bloquer les autres.
+const ky=e=>e.aid+e.ev+e.d+e.v;let fly=false,again=false;
+function flush(){if(fly){again=true;return}if(!on()||!navigator.onLine)return;let q;try{q=JSON.parse(localStorage.getItem(QK)||'[]')}catch(e){q=[]}if(!q.length)return;fly=true;
+const post=b=>fetch(SB_URL+'/rest/v1/lift_events',{method:'POST',headers:{apikey:SB_KEY,Authorization:'Bearer '+SB_KEY,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(b),keepalive:true}).then(r=>r.ok||r.status==400?b:[]).catch(()=>[]);
+const lots=[q.filter(e=>CORE.includes(e.ev)),q.filter(e=>!CORE.includes(e.ev))].filter(b=>b.length);
+Promise.all(lots.map(post)).then(r=>{const n={};r.flat().forEach(e=>{n[ky(e)]=(n[ky(e)]||0)+1});
+try{const cur=JSON.parse(localStorage.getItem(QK)||'[]').filter(e=>{const k=ky(e);if(n[k]){n[k]--;return false}return true});localStorage.setItem(QK,JSON.stringify(cur))}catch(e){}}).finally(()=>{fly=false;if(again){again=false;flush()}})}
 window.track=function(ev){if(!on())return;const a=aid();if(!a)return;try{const q=JSON.parse(localStorage.getItem(QK)||'[]');q.push({aid:a,ev,d:localISO(),v:APPV});localStorage.setItem(QK,JSON.stringify(q.slice(-50)))}catch(e){}flush()};
-addEventListener('online',flush);setTimeout(flush,3000);
+addEventListener('online',flush);
+// visite : une fois par jour et par appareil
+try{if(localStorage.getItem('lift-evo')!=localISO()){localStorage.setItem('lift-evo',localISO());track('open')}}catch(e){}
+setTimeout(flush,3000);
 // fin du tutoriel (nouvel utilisateur)
 const os=$('osheet');if(os&&!PF.ob)new MutationObserver(()=>{if(!os.classList.contains('open')&&PF.ob&&!PF.st0){PF.st0=1;pfS();track('start')}}).observe(os,{attributes:true,attributeFilter:['class']});
 // séance enregistrée

@@ -75,6 +75,21 @@ with sync_playwright() as p:
   pg.evaluate("SB=null;SU=null;localStorage.removeItem('lift-uid');0")
   pg.evaluate("window._m='';const d=Object.getOwnPropertyDescriptor(Location.prototype,'href');window.giveFeedback.toString().includes('mailto')&&(window._m='ok')")
   check('bouton Donner mon avis (mail pré-rempli)',pg.evaluate("window._m")=='ok')
+  # 10. audit accessibilité : libellés, noms, lien d'évitement, pas de onclick ni de style dans index.html
+  LAB="(()=>{const ok=e=>e.getAttribute('aria-label')||(e.id&&document.querySelector('label[for=\"'+e.id+'\"]'))||e.closest('label');return [...document.querySelectorAll('input,select,textarea')].filter(e=>!ok(e)).map(e=>e.id||e.className)})()"
+  bad=set()
+  for js in ["openAdd(TD)","openNew()","SB={};AS={step:'new'};openWelcome()","SB={};AS={};$('data').click()","startLive('A')","openOnb(1);OB.s=3;onbR()","openRap()"]:
+    pg.evaluate(js+";0");pg.wait_for_timeout(250);bad|=set(pg.evaluate(LAB))
+    pg.evaluate("document.querySelectorAll('.sheet.open').forEach(s=>s.classList.remove('open'));if(L)endLive();SB=null;AS={};0")
+  check(f'chaque champ a un libellé {sorted(bad)}',not bad)
+  check('chaque bouton a un nom',pg.evaluate("[...document.querySelectorAll('button')].every(b=>b.getAttribute('aria-label')||b.textContent.trim())"))
+  check('lien « Aller au contenu »',pg.evaluate("!!document.querySelector('a.skip[href=\"#contenu\"]')&&!!$('contenu')"))
+  html=open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','index.html'),encoding='utf-8').read()
+  check('index.html sans onclick ni style en ligne',' onclick=' not in html and ' style=' not in html)
+  # 11. statistiques : un événement refusé par la table (400) est abandonné sans bloquer les autres
+  r=pg.evaluate("""(async()=>{const f0=window.fetch;window.fetch=async(u,o)=>{const b=JSON.parse(o.body);return new Response('',{status:b.some(e=>e.ev=='signup')?400:201})};
+    localStorage.setItem('lift-evq','[]');track('signup');track('session');await new Promise(r=>setTimeout(r,300));window.fetch=f0;return localStorage.getItem('lift-evq')})()""")
+  check(f'statistiques : file vidée même si un événement est refusé ({r})',r=='[]')
   check('aucune erreur JavaScript',not errs);print(errs) if errs else None
   c.close()
   # 9. premier lancement : tutoriel d'abord, compte après la 1re séance
@@ -83,7 +98,7 @@ with sync_playwright() as p:
   for i in range(4):pg.click('#op [data-o="next"]');pg.wait_for_timeout(200)
   pg.evaluate("startLive(Object.keys(PLAN)[0]);L.it[0].ok=true;saveLive()");pg.wait_for_timeout(1700)
   check('compte proposé après la 1re séance',pg.evaluate("$('wsheet').classList.contains('open')"))
-  check('statistiques : début + 1re séance + séance envoyés',sorted(set(e['ev'] for e in EV))==['first_session','session','start'] and all(set(e)=={'aid','ev','d','v'} for e in EV))
+  check('statistiques : ouverture + début + 1re séance + séance envoyés',sorted(set(e['ev'] for e in EV))==['first_session','open','session','start'] and all(set(e)=={'aid','ev','d','v'} for e in EV))
   check('aucune erreur JavaScript (premier lancement)',not errs);print(errs) if errs else None
   c.close();b.close()
 print('\nRÉSULTAT :','tout est bon' if ok else 'des tests échouent');sys.exit(0 if ok else 1)

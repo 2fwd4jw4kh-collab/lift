@@ -41,7 +41,7 @@ Object.keys(D).forEach(k=>{if(D[k].g==t.e.g&&!used.has(k))c[k]=D[k].n});
 Object.values(PLAN).forEach(P=>P.ex.forEach(e=>{if(e.g==t.e.g&&!used.has(e.k)&&!c[e.k])c[e.k]=e.n}));const ks=Object.keys(c);
 $('lp').innerHTML=liveHd()+`<h3 style="margin:6px 0 2px">Remplacer l'exercice</h3><div class="gp">${t.e.n} · ${t.e.g}. Machine prise ? Choisis un équivalent : les séries et reps visées restent les mêmes.</div><div style="margin:10px 0">`+
 (ks.length?ks.map(k=>{const q=D[k]&&D[k].s.at(-1);return`<button class="ex" data-rk="${k}" style="width:100%"><span>${c[k]}</span><b>${q?f1(q[1])+' kg':'Jamais fait'}</b></button>`}).join(''):'<div class="gp">Aucun autre exercice de ce groupe dans ton historique.</div>')+
-`</div><div class="fr" style="border:0"><input id="rnm" maxlength="40" placeholder="Autre exercice (nom)" style="flex:1;min-width:0;background:var(--bg);border:1px solid var(--line);color:var(--tx);border-radius:12px;padding:11px 12px;font:inherit;outline:0"><button class="mini" style="float:none;margin-left:8px" data-rk="__new">Utiliser</button></div><button class="ghost" data-a="rpx">Annuler</button>`;tick()}
+`</div><label class="gh" for="rnm">Autre exercice</label><div class="fr b0"><input id="rnm" maxlength="40" placeholder="Nom de l'exercice"><button class="mini rnb" data-rk="__new">Utiliser</button></div><button class="ghost" data-a="rpx">Annuler</button>`;tick()}
 
 function doRepl(k2){const t=L.it[L.i],o=t.e,used=new Set(L.it.map(x=>x.k));let e2=null,raw='';
 if(k2=='__new'){raw=$('rnm').value.trim();if(!raw){$('rnm').focus();return}const m=Object.keys(D).find(k=>D[k].n.toLowerCase()==raw.toLowerCase());k2=m||('x'+Date.now())}
@@ -90,7 +90,7 @@ let lg='';const list=ks.map(k=>{const q=D[k]&&D[k].s.at(-1),h=c[k].g!=lg?`<div c
 $('lp').innerHTML=liveHd()+`<h3 style="margin:6px 0 2px">Ajouter un exercice</h3><div class="gp">Il se place juste après l'exercice en cours.</div>
 <div class="gh" style="margin-top:14px">Cardio court</div><div class="cats">${['Rameur','Vélo','Tapis','Elliptique','Corde à sauter'].map(m=>`<button data-ak="cardio:${m}">${m}</button>`).join('')}</div>
 <div style="margin:4px 0 12px">${list}</div>
-<div class="gh">Nouvel exercice</div><input id="anm" class="tx" maxlength="40" placeholder="Nom de l'exercice"><div class="cats">${CATS.map(x=>`<button data-ag="${x}" class="${(L.ag||g||'Pectoraux')==x?'on':''}">${x}</button>`).join('')}</div>
+<label class="gh" for="anm">Nouvel exercice</label><input id="anm" class="tx" maxlength="40" placeholder="ex. Écarté à la poulie"><div class="cats">${CATS.map(x=>`<button data-ag="${x}" class="${(L.ag||g||'Pectoraux')==x?'on':''}">${x}</button>`).join('')}</div>
 <button class="cta" data-ak="__new">Ajouter cet exercice</button><button class="ghost" data-a="adx">Annuler</button>`;tick()}
 
 function doAdd(k){let e=null;

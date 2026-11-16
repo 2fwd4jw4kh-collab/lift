@@ -96,3 +96,10 @@ Nouvelle silhouette dessinée pour Lift : contour du corps plus naturel et une t
 - Synchro : si deux appareils ont été modifiés depuis la dernière synchro, les séances sont réunies au lieu que la plus récente écrase l'autre. Une suppression faite sur un seul appareil reste respectée quand l'autre n'a rien changé.
 - Accessibilité : chaque fenêtre est annoncée par son nom à VoiceOver, la bulle de vocabulaire n'est plus lue quand elle est cachée, zones de toucher agrandies (« C'est fait », « Plus tard », « Retour »). Audit automatique (axe) sans défaut grave.
 - Contrôle de sécurité hebdomadaire sur GitHub : vérifie qu'aucune donnée n'est lisible sans compte.
+
+## Version 3.2 : corrections de l'audit du 16/11/2026
+- Chaque champ a un libellé visible relié au champ (`<label for>`), y compris e-mail et mot de passe ; le texte d'exemple n'est plus le seul repère.
+- Lien « Aller au contenu » en tête de page, visible seulement au clavier.
+- Plus aucun `style="…"` ni `onclick` dans `index.html` : tout passe par `css/app.css` (classes utilitaires en fin de fichier) et `addEventListener`. Les affichages/masquages utilisent l'attribut `hidden`.
+- Appels à l'action explicites : « Commencer » au 1er écran du tutoriel, « Créer mon programme » au dernier, « Commencer sans compte », « ▶ Démarrer une séance ».
+- Statistiques : 2 événements en plus (`open`, `signup`) pour lire l'entonnoir visite → tutoriel → 1re séance → compte.

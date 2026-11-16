@@ -36,4 +36,4 @@ Vérifie : date locale après minuit, records en reps, écran de séance, résum
 Ces tests tournent automatiquement sur GitHub (onglet Actions) à chaque envoi.
 
 ## Statistiques anonymes
-Sans cookie ni compte : un identifiant aléatoire par appareil, et seulement 3 événements (`start` = tutoriel terminé, `first_session`, `session`) avec la date et la version. Désactivable dans Réglages › À propos. Pour les activer, exécuter une fois `supabase/lift_events.sql` dans Supabase (SQL Editor) ; les 3 indicateurs se lisent avec les requêtes en bas du fichier.
+Sans cookie ni compte : un identifiant aléatoire par appareil, et seulement 5 événements (`open` = ouverture, une fois par jour ; `start` = tutoriel terminé ; `first_session` ; `session` ; `signup` = compte créé) avec la date et la version. Désactivable dans Réglages › À propos. Pour les activer, exécuter une fois `supabase/lift_events.sql` dans Supabase (SQL Editor) ; les 3 indicateurs se lisent avec les requêtes en bas du fichier.
