@@ -39,12 +39,12 @@
 <div class="sheet" id="wsheet"><div class="panel" style="max-height:92dvh;overflow-y:auto"><div style="display:flex;align-items:center;gap:12px;margin-bottom:6px"><img src="icon-192.png" alt="" width="48" height="48" style="border-radius:12px"><div><h3 style="margin:0;font-size:24px">Lift</h3><div class="mut">Ton carnet de musculation</div></div></div><div id="wacc" style="margin-top:12px"></div><button class="ghost" id="wskip">Continuer sans compte</button><div class="gp" style="text-align:center">Sans compte, tes données restent uniquement sur cet appareil.</div></div></div>
 <div class="sheet" id="csheet"><div class="panel" id="cfx"></div></div>
 <div class="sheet" id="prsheet"><div class="panel" style="max-height:92dvh;overflow-y:auto"><h3>Confidentialité</h3>
-<div class="tip2"><b>Sans compte</b>, tout reste sur ton appareil : rien n'est envoyé nulle part.</div>
+<div class="tip2"><b>Sans compte</b>, tes séances restent sur ton appareil. Seules des statistiques anonymes sont envoyées (voir plus bas), et tu peux les couper.</div><div class="tip2"><b>Statistiques anonymes</b> : pour savoir si Lift est utile, l'appli envoie trois événements (fin du tutoriel, première séance, séance enregistrée) avec un identifiant tiré au hasard et la date. Aucune charge, aucun exercice, aucun nom ni e-mail, aucun cookie. Désactivable dans Réglages › À propos.</div>
 <div class="tip2"><b>Avec un compte</b>, sont stockés en ligne : ton adresse e-mail, ton prénom (si tu l'as indiqué), ton programme et tes séances. Hébergement : Supabase, serveurs à Londres (Royaume-Uni).</div>
 <div class="tip2"><b>Utilisation</b> : uniquement pour te connecter et synchroniser tes appareils. Pas de publicité, pas de revente, pas de partage avec des tiers.</div>
 <div class="tip2"><b>Accès</b> : chaque compte ne peut lire et modifier que ses propres données.</div>
 <div class="tip2"><b>Suppression</b> : « Supprimer mon compte » efface immédiatement ton compte et tes données en ligne. Les données de cet appareil restent jusqu'à ce que tu les effaces.</div>
-<div class="tip2"><b>Contact</b> : <a href="mailto:lift.trainingapp.contact@gmail.com" style="color:var(--lime)">lift.trainingapp.contact@gmail.com</a></div>
+<div class="tip2"><b>Contact</b> : <a href="mailto:lift.trainingapp.contact@gmail.com" >lift.trainingapp.contact@gmail.com</a></div>
 <button class="cta" id="prok">Fermer</button></div></div>
 <div class="sheet" id="lxsheet"><div class="panel"><h3 id="lxt"></h3><p class="obp" id="lxd"></p><button class="cta" id="lxok">Compris</button><button class="ghost" id="lxall">Voir tout le lexique</button></div></div>
 <div class="sheet" id="rapsheet"><div class="panel" id="rapp" style="max-height:92dvh;overflow-y:auto"></div></div>
@@ -57,5 +57,5 @@
 <div class="sheet" id="sheet"><div class="panel"><h3 id="sht"></h3><div id="nw" style="display:none"><input id="nm" placeholder="Nom de l'exercice" maxlength="40"><div class="cats" id="cats"></div></div><div class="fr"><span>Date</span><input type="date" id="dd" min="2020-01-01"></div><div class="fr"><span>Séance</span><div class="cats" id="sl" style="padding:0"></div></div><div class="fr" id="xs"><span>Exercice</span><select id="xsel"></select></div><div id="flds"></div>
 <div class="fr"><span>RIR</span><div class="rirs" id="rirs"></div></div>
 <button class="cta" id="ok">Valider la série</button><button class="ghost" id="pdel" style="display:none"></button><button class="ghost" id="no">Annuler</button></div></div>
-<script>const APPV='2026-11-16.30';</script><script src="js/app.js"></script><script src="js/reglages.js"></script><script src="js/gestes.js"></script><script src="js/finitions.js"></script><script>if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))</script>
+<script>const APPV='2026-11-16.31';</script><script src="js/contenu.js"></script><script src="js/donnees.js"></script><script src="js/progression.js"></script><script src="js/programme.js"></script><script src="js/seance.js"></script><script src="js/app.js"></script><script src="js/reglages.js"></script><script src="js/gestes.js"></script><script src="js/finitions.js"></script><script>if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))</script>
 </body></html>

@@ -1,0 +1,27 @@
+# Lance les tests de fumée de Lift à chaque envoi sur GitHub et à chaque demande de fusion.
+name: Tests
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Installer Playwright et Chromium
+        run: |
+          pip install playwright
+          python -m playwright install --with-deps chromium
+      - name: Servir l'appli
+        run: |
+          python -m http.server 8765 >/dev/null 2>&1 &
+          sleep 2
+      - name: Tests de fumée
+        env:
+          TZ: Europe/Paris
+        run: python tests/smoke.py

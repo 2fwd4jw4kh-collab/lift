@@ -84,3 +84,10 @@ Nouvelle silhouette dessinée pour Lift : contour du corps plus naturel et une t
 - Réglages : export CSV, import Hevy/Strong, rappels dans l'agenda (.ics hebdomadaire avec alerte 15 min avant), inviter un ami.
 - Retirés : bilan IA (invisible hors environnement Claude), copier-coller de sauvegarde rangé dans « avancé ».
 - Code séparé en fichiers (`css/`, `js/`), tests de fumée dans `tests/smoke.py`.
+
+## Version 3.1 : avis, mesure et fondations
+- Réglages › Partage et avis : « Donner mon avis » ouvre un mail prérempli (version, appareil) vers l'adresse de contact.
+- Statistiques anonymes sans cookie, 3 chiffres seulement : premières séances terminées, séances par semaine, retour 4 semaines plus tard. Interrupteur dans À propos.
+- CSS en un seul système : toutes les couleurs isolées et les niveaux de superposition deviennent des jetons (`--scrim`, `--red-wash`, `--body*`, `--z-*`), sections nommées par zone et non plus par version. Rendu vérifié identique écran par écran.
+- Cœur découpé : `donnees.js`, `seance.js`, `progression.js`, `programme.js`, `contenu.js`, `app.js`.
+- Tests lancés automatiquement sur GitHub à chaque envoi.

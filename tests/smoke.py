@@ -5,6 +5,8 @@ import json,datetime,sys,os,tempfile
 from playwright.sync_api import sync_playwright
 URL=os.environ.get('LIFT_URL','http://localhost:8765/index.html')
 CHROME=os.environ.get('CHROME','/usr/bin/google-chrome')
+LAUNCH={'args':['--no-sandbox']}
+if CHROME and os.path.exists(CHROME):LAUNCH['executable_path']=CHROME
 T=datetime.date(2026,11,16)
 def d(n):return (T-datetime.timedelta(days=n)).isoformat()
 ex={'dcs':('Développé couché (Smith)','Couché Smith','Pectoraux',[60,62.5,62.5,65,65,67.5,67.5,70]),
@@ -15,13 +17,15 @@ D={k:{'n':n,'sn':sn,'g':g,'s':[[d(7*(7-i)+1),w[i],8 if i%2 else 10,3,1] for i in
 D['cm']={'n':'Curl marteau','sn':'Curl marteau','g':'Bras','s':[[d(15),16,8,3,1],[d(8),16,11,3,1]]}
 ST=json.dumps({'D':D,'SE':{},'NT':{},'DL':[]})
 ok=True
+EV=[]
 def check(name,cond):
   global ok;print(('OK   ' if cond else 'ÉCHEC'),name);ok=ok and bool(cond)
 with sync_playwright() as p:
-  b=p.chromium.launch(executable_path=CHROME,args=['--no-sandbox'])
+  b=p.chromium.launch(**LAUNCH)
   def ctx(seed=True,when='2026-11-16T18:00:00'):
     c=b.new_context(viewport={'width':390,'height':844},device_scale_factor=1,is_mobile=True,has_touch=True,locale='fr-FR',timezone_id='Europe/Paris',accept_downloads=True)
     c.route('https://cdn.jsdelivr.net/**',lambda r:r.abort())
+    c.route('**/rest/v1/lift_events',lambda r:(EV.extend(json.loads(r.request.post_data or '[]')),r.fulfill(status=201,body='')))
     pg=c.new_page();errs=[];pg.on('pageerror',lambda e:errs.append(str(e)))
     pg.clock.install(time=datetime.datetime.fromisoformat(when+'+01:00'))
     pg.goto(URL)
@@ -56,14 +60,17 @@ with sync_playwright() as p:
   pg.evaluate("$('sfail').hidden=true;openRap()");pg.wait_for_timeout(400)
   with pg.expect_download() as dl:pg.click('#rapgo')
   ics=open(dl.value.path()).read();check('fichier agenda .ics',ics.startswith('BEGIN:VCALENDAR') and 'RRULE:FREQ=WEEKLY' in ics)
+  pg.evaluate("window._m='';const d=Object.getOwnPropertyDescriptor(Location.prototype,'href');window.giveFeedback.toString().includes('mailto')&&(window._m='ok')")
+  check('bouton Donner mon avis (mail pré-rempli)',pg.evaluate("window._m")=='ok')
   check('aucune erreur JavaScript',not errs);print(errs) if errs else None
   c.close()
   # 9. premier lancement : tutoriel d'abord, compte après la 1re séance
-  c,pg,errs=ctx(seed=False)
+  EV.clear();c,pg,errs=ctx(seed=False)
   check('premier lancement : tutoriel ouvert, pas le compte',pg.evaluate("$('osheet').classList.contains('open')&&!$('wsheet').classList.contains('open')"))
   for i in range(4):pg.click('#op [data-o="next"]');pg.wait_for_timeout(200)
   pg.evaluate("startLive(Object.keys(PLAN)[0]);L.it[0].ok=true;saveLive()");pg.wait_for_timeout(1700)
   check('compte proposé après la 1re séance',pg.evaluate("$('wsheet').classList.contains('open')"))
+  check('statistiques : début + 1re séance + séance envoyés',sorted(set(e['ev'] for e in EV))==['first_session','session','start'] and all(set(e)=={'aid','ev','d','v'} for e in EV))
   check('aucune erreur JavaScript (premier lancement)',not errs);print(errs) if errs else None
   c.close();b.close()
 print('\nRÉSULTAT :','tout est bon' if ok else 'des tests échouent');sys.exit(0 if ok else 1)

@@ -10,11 +10,18 @@ Application web installable (PWA), en français : séances guidées au RIR, la b
 | Fichier | Rôle |
 |---|---|
 | `index.html` | Structure des écrans et numéro de version (`APPV`) |
-| `css/app.css` | Charte « Piste » (voir `DESIGN.md`) |
-| `js/app.js` | Cœur : données, séances, progression, records, programmes, compte |
+| `css/app.css` | Charte « Piste » en un seul système : jetons (couleurs, tailles, couches), puis une section par zone de l'appli (voir `DESIGN.md`) |
+| `js/donnees.js` | Sauvegarde locale, versions, compte et synchro, import/export, 1RM |
+| `js/seance.js` | Séance en direct : séries, repos, ajout, cardio, ressenti |
+| `js/progression.js` | Graphique, records, historique, édition des perfs |
+| `js/programme.js` | Accueil, prochaine séance, objectifs, tutoriel, rappels |
+| `js/contenu.js` | Muscles, schémas, fiches, lexique |
+| `js/app.js` | Cœur : état, rendu général, navigation, démarrage (chargé après les fichiers ci-dessus) |
 | `js/reglages.js` | Page Réglages |
 | `js/gestes.js` | Toucher et navigation façon iOS |
-| `js/finitions.js` | Import/export, partage, rappels, astuces |
+| `js/finitions.js` | Import, partage, astuces, « Donner mon avis », statistiques anonymes |
+| `supabase/lift_events.sql` | Table des statistiques anonymes + requêtes des 3 indicateurs |
+| `.github/workflows/tests.yml` | Lance les tests à chaque envoi sur GitHub |
 | `sw.js` | Mode hors ligne (réseau d'abord, cache en secours) |
 | `exos/` | Dessins des mouvements (CC BY-SA 4.0, voir `exos/CREDITS.md`) |
 
@@ -25,4 +32,8 @@ Application web installable (PWA), en français : séances guidées au RIR, la b
 python3 -m http.server 8765 &
 python3 tests/smoke.py
 ```
-Vérifie : date locale après minuit, records en reps, écran de séance, résumé du mois, export CSV, import Hevy/Strong, alerte de stockage plein, rappels d'agenda, premier lancement.
+Vérifie : date locale après minuit, records en reps, écran de séance, résumé du mois, export CSV, import Hevy/Strong, alerte de stockage plein, rappels d'agenda, premier lancement, bouton d'avis, statistiques anonymes.
+Ces tests tournent automatiquement sur GitHub (onglet Actions) à chaque envoi.
+
+## Statistiques anonymes
+Sans cookie ni compte : un identifiant aléatoire par appareil, et seulement 3 événements (`start` = tutoriel terminé, `first_session`, `session`) avec la date et la version. Désactivable dans Réglages › À propos. Pour les activer, exécuter une fois `supabase/lift_events.sql` dans Supabase (SQL Editor) ; les 3 indicateurs se lisent avec les requêtes en bas du fichier.
