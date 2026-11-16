@@ -252,7 +252,7 @@ html:has(.sheet.open),html:has(.sheet.open) body{overflow:hidden}
 
 /* --- 2.5 : muscles travaillés --- */
 .body .bb{fill:#E1E3DF}.body .mn{fill:#CDD1CC}.body .mp{fill:var(--red)}.body .ms{fill:var(--red);fill-opacity:.35}
-.body path,.body circle{stroke:var(--bg);stroke-width:1;stroke-linejoin:round}
+.body path,.body circle,.body ellipse{stroke:var(--bg);stroke-width:.7;stroke-linejoin:round}
 .muc{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--bg);border-radius:var(--r2);padding:8px 12px 8px 8px;margin:6px 0 10px;min-height:64px}
 .muc svg.sm{width:100px;height:auto;flex:none}.muc span{flex:1;min-width:0}.muc b{display:block;font-size:var(--f2);font-weight:700;color:var(--tx)}.muc i{display:block;font-style:normal;font-size:var(--f1);color:var(--t2);margin-top:2px}.muc em{font-style:normal;color:var(--t3);font-size:var(--f4)}
 .card .muc{margin:12px 0 0}
@@ -285,7 +285,7 @@ html:has(.sheet.open),html:has(.sheet.open) body{overflow:hidden}
 .tmb.dn::after{bottom:auto;top:-6px;border-top:0;border-bottom:7px solid var(--tx)}
 
 .tmf{float:right;width:84px;margin:0 0 4px 10px;background:rgba(255,255,255,.08);border-radius:6px;padding:4px}
-.tmf svg{display:block;width:100%}.tmf .body .bb,.tmf .body .mn{fill:#3A3E45}.tmf .body path,.tmf .body circle{stroke:var(--tx)}.tmf .body .mp{fill:#E2533D}
+.tmf svg{display:block;width:100%}.tmf .body .bb,.tmf .body .mn{fill:#3A3E45}.tmf .body path,.tmf .body ellipse{stroke:var(--tx)}.tmf .body .mp{fill:#E2533D}
 .body.focus .mp,.body.focus .ms{fill:#CDD1CC;fill-opacity:1}.body.focus .fz{fill:var(--red)!important;fill-opacity:1!important}
 .body path{transition:fill 180ms var(--ease-out),fill-opacity 180ms var(--ease-out)}
 /* --- grand écran --- */
@@ -853,7 +853,8 @@ lombaires:["Lombaires","le bas du dos, qui le garde droit"],
 fessiers:["Fessiers","étendent la hanche, moteur des poussées de jambes"],
 quads:["Quadriceps","l'avant de la cuisse, qui tend le genou"],
 ischios:["Ischio-jambiers","l'arrière de la cuisse, qui plie le genou"],
-mollets:["Mollets","font monter sur la pointe des pieds"]}}
+mollets:["Mollets","font monter sur la pointe des pieds"],
+add:["Adducteurs","l'intérieur de la cuisse, qui rapproche les jambes"]}}
 // [principaux, secondaires, précision]
 function MX(){const P='pecs',DA='delt_ant',DL='delt_lat',DP='delt_post',BI='biceps',TR='triceps',AV='avbras',AB='abdos',OB='obliques',DO='dorsaux',HD='haut_dos',LO='lombaires',FE='fessiers',QU='quads',IS='ischios',MO='mollets';return{
 dcs:[[P],[DA,TR],"Le guidage de la Smith te laisse pousser lourd en sécurité."],
@@ -888,12 +889,12 @@ cp:[[AB],[OB],"Enroule le buste, ce ne sont pas les bras qui tirent."],
 rj:[[AB],[OB],"Monte les jambes sans élan, bas du dos plaqué."],
 rjs:[[AB],[OB,AV],"Suspendu : les avant-bras tiennent, les abdos montent les jambes."],
 gain:[[AB],[OB,LO],"Corps aligné de la tête aux talons, sans creuser le dos."],
-pc:[[QU,FE],[IS],"Pieds plus hauts sur le plateau : plus de fessiers."],
-sq:[[QU,FE],[IS,LO,AB],"Le roi des exercices de jambes."],
+pc:[[QU,FE],[IS,'add'],"Pieds plus hauts sur le plateau : plus de fessiers."],
+sq:[[QU,FE],[IS,'add',LO,AB],"Le roi des exercices de jambes."],
 sqpc:[[QU,FE],[IS],"Descends au moins cuisses parallèles au sol."],
 rdl:[[IS,FE],[LO],"Hanches vers l'arrière, jambes presque tendues."],
 fb:[[QU,FE],[IS],"Une jambe à la fois : corrige les déséquilibres."],
-fent:[[QU,FE],[IS],"Grand pas, genou arrière proche du sol."],
+fent:[[QU,FE],[IS,'add'],"Grand pas, genou arrière proche du sol."],
 pist:[[QU,FE],[AB,MO],"Sur une jambe : équilibre et force."],
 lc:[[IS],[MO],"Isole l'arrière de la cuisse."],
 lex:[[QU],[],"Isole l'avant de la cuisse."],
@@ -908,42 +909,59 @@ function musOf(k,n,g){const m=MX()[k]||MXC()[k];if(m)return m;const t=String(n||
 const kw=[['curl',[['biceps'],['avbras']]],['marteau',[['biceps','avbras'],[]]],['triceps',[['triceps'],[]]],['dips',[['pecs','triceps'],['delt_ant']]],['pompe',[['pecs'],['triceps','delt_ant']]],['couche',[['pecs'],['delt_ant','triceps']]],['ecarte',[['pecs'],['delt_ant']]],['butterfly',[['pecs'],[]]],['militaire',[['delt_ant','delt_lat'],['triceps']]],['epaule',[['delt_ant','delt_lat'],['triceps']]],['elevation',[['delt_lat'],[]]],['oiseau',[['delt_post'],['haut_dos']]],['face pull',[['delt_post','haut_dos'],[]]],['traction',[['dorsaux'],['biceps']]],['tirage',[['dorsaux'],['biceps','haut_dos']]],['rowing',[['dorsaux','haut_dos'],['biceps']]],['shrug',[['haut_dos'],[]]],['souleve',[['ischios','fessiers','lombaires'],['haut_dos']]],['squat',[['quads','fessiers'],['ischios']]],['presse',[['quads','fessiers'],['ischios']]],['fente',[['quads','fessiers'],['ischios']]],['hip thrust',[['fessiers'],['ischios']]],['leg curl',[['ischios'],[]]],['extension',[['quads'],[]]],['mollet',[['mollets'],[]]],['crunch',[['abdos'],['obliques']]],['gainage',[['abdos'],['obliques']]],['abdo',[['abdos'],[]]],['oblique',[['obliques'],['abdos']]]];
 for(const[w,v]of kw)if(t.includes(w))return[v[0],v[1],''];
 const G={'Pectoraux':[['pecs'],['delt_ant','triceps']],'Épaules':[['delt_ant','delt_lat'],[]],'Dos':[['dorsaux','haut_dos'],['biceps']],'Bras':[['biceps','triceps'],[]],'Jambes':[['quads','fessiers'],['ischios']],'Abdos':[['abdos'],['obliques']],'Cardio':[['quads'],['mollets']]}[g]||[[],[]];return[G[0],G[1],'']}
-// silhouette : vue de face (x 0-100) et de dos (x 110-210), hauteur 200
-function bodySVG(pr,se,cls){const on=z=>pr.includes(z)?'mp':se.includes(z)?'ms':'mn';
-const sym=(d,z)=>`<path class="${on(z)}" data-z="${z}" d="${d}"/>`;
-const F=`<g>
-<circle class="bb" cx="50" cy="15" r="10"/><path class="bb" d="M45 24h10v8H45z"/>
-<path class="bb" d="M30 34q20-6 40 0l2 58q-22 6-44 0z"/>
-${sym('M33 37q8-3 16-1v16q-9 3-17-2q-1-8 1-13zM67 37q-8-3-16-1v16q9 3 17-2q1-8-1-13z','pecs')}
-${sym('M27 35q5-4 9-1l-1 12q-4 2-9-1zM73 35q-5-4-9-1l1 12q4 2 9-1z','delt_ant')}
-${sym('M27 35q-7 1-8 9q1 5 4 6l4-3zM73 35q7 1 8 9q-1 5-4 6l-4-3z','delt_lat')}
-${sym('M41 55h18v34q-9 4-18 0z','abdos')}
-${sym('M33 56l7 1v31l-6-3q-2-14-1-29zM67 56l-7 1v31l6-3q2-14 1-29z','obliques')}
-${sym('M21 48q5-2 8 2l-1 20q-4 3-8 0q-2-11 1-22zM79 48q-5-2-8 2l1 20q4 3 8 0q2-11-1-22z','biceps')}
-${sym('M18 72q5-2 8 1l-2 26q-3 2-6 0q-2-14 0-27zM82 72q-5-2-8 1l2 26q3 2 6 0q2-14 0-27z','avbras')}
-<circle class="bb" cx="20" cy="104" r="3.5"/><circle class="bb" cx="80" cy="104" r="3.5"/>
-<path class="bb" d="M30 92q20 6 40 0l-1 10H31z"/>
-${sym('M31 101q9-2 18 2l-1 40q-8 3-14 0q-5-20-3-42zM69 101q-9-2-18 2l1 40q8 3 14 0q5-20 3-42z','quads')}
-<path class="bb" d="M35 145q6 3 12 0v6H35zM65 145q-6 3-12 0v6h12z"/>
-${sym('M35 152q6-2 12 0l-1 32q-5 3-10 0q-3-16-1-32zM65 152q-6-2-12 0l1 32q5 3 10 0q3-16 1-32z','mollets')}
-<path class="bb" d="M35 186h11l2 6H33zM65 186H54l-2 6h15z"/></g>`;
-const B=`<g transform="translate(110 0)">
-<circle class="bb" cx="50" cy="15" r="10"/>
-<path class="bb" d="M30 34q20-6 40 0l2 58q-22 6-44 0z"/>
-${sym('M42 24h16l10 10l-12 4l-6 22l-6-22l-12-4z','haut_dos')}
-${sym('M27 35q5-4 9-1l1 11q-5 2-10-1zM73 35q-5-4-9-1l-1 11q5 2 10-1z','delt_post')}
-${sym('M27 35q-7 1-8 9q1 5 4 6l4-3zM73 35q7 1 8 9q-1 5-4 6l-4-3z','delt_lat')}
-${sym('M33 42l11 3l5 20v18q-8-2-14-8q-4-16-2-33zM67 42l-11 3l-5 20v18q8-2 14-8q4-16 2-33z','dorsaux')}
-${sym('M43 75q7 4 14 0v14q-7 3-14 0z','lombaires')}
-${sym('M21 47q5-2 8 2l-1 21q-4 3-8 0q-2-11 1-23zM79 47q-5-2-8 2l1 21q4 3 8 0q2-11-1-23z','triceps')}
-${sym('M18 72q5-2 8 1l-2 26q-3 2-6 0q-2-14 0-27zM82 72q-5-2-8 1l2 26q3 2 6 0q2-14 0-27z','avbras')}
-<circle class="bb" cx="20" cy="104" r="3.5"/><circle class="bb" cx="80" cy="104" r="3.5"/>
-${sym('M30 91q10-2 19 2v17q-10 3-19-2q-2-9 0-17zM70 91q-10-2-19 2v17q10 3 19-2q2-9 0-17z','fessiers')}
-${sym('M31 112q9 3 18 1l-1 30q-8 3-14 0q-4-15-3-31zM69 112q-9 3-18 1l1 30q8 3 14 0q4-15 3-31z','ischios')}
-<path class="bb" d="M35 145q6 3 12 0v6H35zM65 145q-6 3-12 0v6h12z"/>
-${sym('M34 152q7-3 13 1l-1 30q-6 3-11 0q-3-15-1-31zM66 152q-7-3-13 1l1 30q6 3 11 0q3-15 1-31z','mollets')}
-<path class="bb" d="M35 186h11l2 6H33zM65 186H54l-2 6h15z"/></g>`;
-return`<svg class="body ${cls||''}" viewBox="0 0 210 196" role="img" aria-label="Muscles travaillés : ${pr.map(z=>MZ()[z][0]).join(', ')}">${F}${B}</svg>`}
+
+// ===== Lift 2.9 : schéma anatomique détaillé (dessin original) =====
+function mirP(d){return d.replace(/([MLQCZ])([^MLQCZ]*)/g,(m,c,a)=>{if(c=='Z')return'Z';const n=a.trim().split(/[\s,]+/).filter(Boolean).map(Number);for(let i=0;i<n.length;i+=2)n[i]=+(100-n[i]).toFixed(2);return c+n.join(' ')})}
+function BODY(){return{
+F:{base:[
+'M50 21L45 21L44.5 27Q36 29 29.5 31.5Q22 34 20.5 42L19.5 58Q18.5 74 18 88L18.5 97L21.5 100.5Q25 99 25 95L26.5 81Q28.5 71 29.5 63L31.5 55Q33 63 34 71Q35 81 34.5 91Q33.5 110 34.5 128L35.5 140Q35.5 158 37 176L35.5 188L44.5 189.5L44.5 177Q46 158 45.5 142L47.5 128Q48.5 112 49.2 101L50 101Z'],
+head:'M50 3Q57.5 3 58 12Q58 20 50 22Q42 20 42 12Q42.5 3 50 3Z',
+m:[
+['haut_dos','M45 25Q39 28.5 31.5 31.5L36 33Q42 30.5 46 29.5Z'],
+['delt_lat','M30 31.8Q22.5 33 21 41.5Q21.2 46 23.6 48.3Q24.4 41 28.5 36Z'],
+['delt_ant','M36 33.2Q30.5 32.5 28.5 36Q25.5 41 25.8 47.5Q28.5 46.5 30.5 43Q32.5 38 36 35.5Z'],
+['pecs','M49.2 33.5Q42 31.5 36.2 34.2Q34.2 36.5 34.6 39.5Q41 37.6 49.2 38.6Z'],
+['pecs','M49.2 39.4Q41.5 38.4 34.7 40.4Q33 45.5 35.2 50Q41.8 52.8 49.2 49.6Z'],
+['obliques','M36 53Q39 52 42.6 53.5L42.4 79.5Q37.4 76.5 35.7 70Q34.6 61 36 53Z'],
+['abdos','M43.4 52.4Q46.5 51.6 49.3 52L49.3 58L43.4 58.4Z'],
+['abdos','M43.4 59.4L49.3 59L49.3 65.4L43.4 65.8Z'],
+['abdos','M43.4 66.8L49.3 66.4L49.3 72.6L43.3 73Z'],
+['abdos','M43.3 74L49.3 73.6L49.3 86.5Q45.5 85 43.6 81Z'],
+['biceps','M25.3 49Q29 47.8 30.6 51L29.6 63.8Q26.4 66.6 23.8 64Q22.4 56 25.3 49Z'],
+['avbras','M23.4 67Q28.4 65.6 29.2 70.2L27.4 89.5Q24.4 91.4 21.6 89.6Q19.4 79 23.4 67Z'],
+['avbras','M23 67.4Q19.8 72.5 19.6 81.5L21.4 83.4Q21.4 74.5 25.4 67.6Z'],
+['quads','M37.4 96.5Q40.6 96.8 41.5 100L40.6 126.5Q37.6 132.5 35.2 128Q32.6 111.5 37.4 96.5Z'],
+['quads','M41.6 98.8Q45.3 97.2 47.3 100.2L45.6 127.6Q42.6 131.4 40.9 127.2Z'],
+['quads','M45.4 117.6Q49 119.8 48.3 127.6Q46.4 133.8 43.4 132Q42.6 124.6 45.4 117.6Z'],
+['add','M47.5 99.4Q49.8 99.6 49.9 102L49.2 116.8Q46.8 116 46.2 111.6Z'],
+['mollets','M44.2 141.5Q47 143.2 46.8 150.4L45.2 162Q43.4 157.6 44.2 141.5Z'],
+['tib','M38.8 140.5Q42.6 139.2 43.6 142L42.6 168Q40.2 170 39 167.4Q37.6 154 38.8 140.5Z']]},
+B:{base:null,head:null,m:[
+['haut_dos','M50 23.5L45 26.5Q37.5 29.5 31.5 32.5Q40.5 36 45.4 42L50 58Z'],
+['delt_lat','M25 34Q20.6 37 21 44.6L23.4 46.6Q22.6 40 27 35.2Z'],
+['delt_post','M31.6 33Q25.6 33.8 23.6 40.8Q26.2 45.4 30.2 44.4Q31.4 39.2 35.4 36Z'],
+['haut_dos','M36.6 37.6Q42.8 37.2 45.6 42.4L43.8 48.2Q38.8 49.2 36 45Z'],
+['dorsaux','M33.8 44.4Q37.8 46.6 37.2 51.2L33 50.4Q32.2 46.4 33.8 44.4Z'],
+['dorsaux','M33 51.2Q38.4 50.6 45.8 56L49.2 72Q42.4 76.4 37.2 70.4Q32.8 62 33 51.2Z'],
+['lombaires','M45.8 63.6L49.6 63.6L49.6 84.6Q46 84.4 44 80Z'],
+['triceps','M25.4 47.2Q28.6 46.2 29.6 49.4L28.4 63.4Q25.4 65.4 24.2 62Z'],
+['triceps','M22.2 46.2Q24.6 46.4 25 50.2L24 60.4Q21 58.4 21.2 52Z'],
+['avbras','M23.4 67Q28.4 65.6 29.2 70.2L27.4 89.5Q24.4 91.4 21.6 89.6Q19.4 79 23.4 67Z'],
+['fessiers','M35.8 82.2Q42.4 80 46.4 84.2L44.2 88.6Q38.8 89.4 35.8 87Z'],
+['fessiers','M35.6 87.8Q44 86.4 49.4 90.4L49.4 102.4Q42 106.2 37 101.4Q34 94.6 35.6 87.8Z'],
+['ischios','M37 104.4Q41 105 43 108.4L42 131.6Q39 134 37 130Q35 116.4 37 104.4Z'],
+['ischios','M43.4 106.2Q47.4 105 48.4 108.6L46.4 131Q44.2 133.2 43.2 130Z'],
+['mollets','M38.2 141.6Q42 140 43 146L42 160Q39 162 38 158Q36.4 150 38.2 141.6Z'],
+['mollets','M43.4 142.2Q47.4 141 48 147L46.2 160Q44 162 43.2 158Z'],
+['mollets','M39.4 160.6Q44 163.4 46.6 160.4L45 172Q42 174.2 40 172Z']]}}}
+function bodySVG(pr,se,cls){const on=z=>pr.includes(z)?'mp':se.includes(z)?'ms':'mn',Bd=BODY();
+const fig=(V,dx)=>{const base=Bd.F.base,hd=Bd.F.head;let o=`<g transform="translate(${dx} 0)">`;
+o+=base.map(d=>`<path class="bb" d="${d}"/><path class="bb" d="${mirP(d)}"/>`).join('')+`<path class="bb" d="${hd}"/>`;
+o+=`<ellipse class="bb" cx="24.3" cy="95" rx="3.6" ry="4.6"/><ellipse class="bb" cx="75.7" cy="95" rx="3.6" ry="4.6"/>`;
+o+=V.m.map(([z,d])=>{const c=z=='tib'?'mn':on(z),a=`data-z="${z}"`;return`<path class="${c}" ${a} d="${d}"/><path class="${c}" ${a} d="${mirP(d)}"/>`}).join('');
+return o+'</g>'};
+return`<svg class="body ${cls||''}" viewBox="0 0 210 192" role="img" aria-label="Muscles travaillés : ${pr.map(z=>(MZ()[z]||[z])[0]).join(', ')}">${fig(Bd.F,0)}${fig(Bd.B,110)}</svg>`}
+
 function EXI(){return new Set(['dcs','dc','ih','pcb','tv','tvs','th','rb','trl','trac','chin','rinv','susp','sdt','elp','el','de','dm','fp','oi','tp','tpo','cm','cb','cin','cp','rj','rjs','gain','pc','sq','sqpc','rdl','fb','fent','pist','lc','lex','mol','pomp','dips','ppi','c_rameur','c_velo','c_tapis','c_elliptique','c_cordeasauter'])}
 function exImg(k,c){return EXI().has(k)?`<span class="exi ${c||''}"><img src="exos/${k}-1.svg" alt="" decoding="async"><img src="exos/${k}-2.svg" alt="" decoding="async"></span>`:''}
 function musCard(k,n,g){const[pr,se]=musOf(k,n,g);if(!pr.length)return'';const Z=MZ(),im=exImg(k,'sm');
@@ -1049,9 +1067,9 @@ c_velo:["Le vélo sollicite principalement les {quadriceps|quad}. Le {grand fess
 c_tapis:["Le tapis sollicite principalement les mollets et les {quadriceps|quad}. Le {grand fessier|gfes} travaille davantage en marche inclinée, et le {système cardio-vasculaire|cv} est entraîné.","La marche inclinée est un cardio efficace et facile à doser, avec peu d'impact sur les articulations.",["Ne te tiens pas aux barres : tu perdrais une grande partie de l'effort.","Augmente la pente avant la vitesse pour progresser."]],
 c_elliptique:["L'elliptique sollicite principalement les {quadriceps|quad} et le {grand fessier|gfes}. Les bras poussent et tirent les poignées, et le {système cardio-vasculaire|cv} est entraîné.","Un cardio sans impact qui fait travailler le haut et le bas du corps en même temps.",["Garde le buste droit et appuie sur tout le pied, pas seulement sur la pointe.","Utilise vraiment les bras pour répartir l'effort."]],
 c_cordeasauter:["La corde à sauter sollicite principalement les mollets ({gastrocnémiens|gastro} et {soléaire|sol}). Les épaules et les avant-bras font tourner la corde, et le {système cardio-vasculaire|cv} est fortement sollicité.","Un cardio intense et court qui améliore la coordination, l'explosivité et l'endurance.",["Saute bas, sur la pointe des pieds, genoux légèrement fléchis.","Fais tourner la corde avec les poignets, pas avec les bras entiers."]]}}
-function GZ(){return{gp:['pecs'],fclav:['pecs'],dant:['delt_ant'],dlat:['delt_lat'],dpost:['delt_post'],tri:['triceps'],bic:['biceps'],brach:['biceps'],brr:['avbras'],gd:['dorsaux'],trap:['haut_dos'],rhom:['haut_dos'],omo:['haut_dos'],ret:['haut_dos'],coif:['delt_post'],lomb:['lombaires'],gfes:['fessiers'],mfes:['fessiers'],quad:['quads'],isch:['ischios'],add:['quads'],gastro:['mollets'],sol:['mollets'],gdroit:['abdos'],obl:['obliques'],trans:['abdos'],gain:['abdos','obliques','lombaires'],chp:['mollets','ischios','fessiers','lombaires'],ext:['fessiers','ischios']}}
+function GZ(){return{gp:['pecs'],fclav:['pecs'],dant:['delt_ant'],dlat:['delt_lat'],dpost:['delt_post'],tri:['triceps'],bic:['biceps'],brach:['biceps'],brr:['avbras'],gd:['dorsaux'],trap:['haut_dos'],rhom:['haut_dos'],omo:['haut_dos'],ret:['haut_dos'],coif:['delt_post'],lomb:['lombaires'],gfes:['fessiers'],mfes:['fessiers'],quad:['quads'],isch:['ischios'],add:['add'],gastro:['mollets'],sol:['mollets'],gdroit:['abdos'],obl:['obliques'],trans:['abdos'],gain:['abdos','obliques','lombaires'],chp:['mollets','ischios','fessiers','lombaires'],ext:['fessiers','ischios']}}
 function txH(t){const G=GL();return esc(t).replace(/\{([^|}]+)\|([a-z_]+)\}/g,(m,w,k)=>G[k]?`<button class="tm" data-tm="${k}">${w}</button>`:w)}
-function txBlock(k,n,g){const T=TX()[k];if(!T)return null;return`<p class="txp">${txH(T[0])}</p><p class="txp"><b>Pourquoi le développer ?</b> ${txH(T[1])}</p><div class="txc"><b>Conseils</b><ul>${T[2].map(c=>`<li>${txH(c)}</li>`).join('')}</ul></div><div class="gp">Touche un mot souligné pour voir sa définition.</div>`}
+function txBlock(k,n,g){const T=TX()[k];if(!T)return null;return`<p class="txp">${txH(T[0])}</p><p class="txp"><b>Pourquoi le développer ?</b> ${txH(T[1])}</p><div class="txc"><b>Conseils</b><ul>${T[2].map(c=>`<li>${txH(c)}</li>`).join('')}</ul></div>`}
 (function(){const bub=document.createElement('div');bub.id='tmb';bub.className='tmb';bub.setAttribute('role','tooltip');document.body.appendChild(bub);let cur=null;
 const hide=()=>{bub.classList.remove('on');if(cur)cur.classList.remove('on');cur=null;focusZ(null)};
 window.focusZ=function(zz){document.querySelectorAll('.mubig svg.body').forEach(sv=>{sv.classList.toggle('focus',!!zz);sv.querySelectorAll('[data-z]').forEach(p=>p.classList.toggle('fz',!!zz&&zz.includes(p.dataset.z)))})};
@@ -1188,7 +1206,7 @@ function fbRow(d){const f=XS.d&&XS.d[d]&&XS.d[d].f;if(!f)return'';const T=Object
 function sessSub(n,tv,d){const x=XS.d&&XS.d[d],cm=((x&&x.c)||[]).reduce((a,c)=>a+c.m,0),p=[];if(n)p.push(n+' exercice'+(n>1?'s':'')+' · '+tv+' série'+(tv>1?'s':''));if(cm)p.push(cm+' min de cardio');return p.join(' · ')}
 </script><script>
 // --- Réglages : page à part ouverte par le rouage ---
-var PV=window.PV||'t';const VER='2.8';let wq=0;
+var PV=window.PV||'t';const VER='2.9';let wq=0;
 function hdr(){const r=view=='r';$('back').hidden=!r;$('gear').hidden=r;$('mo').hidden=r;$('hi').textContent=r?'Réglages':greet()}
 const srow=(k,l,v,al)=>`<button class="srow" data-r="${k}"><span>${l}</span>${v!=null?`<em${al?' class="al"':''}>${v}</em>`:''}<i>›</i></button>`;
 function setR(){const el=$('v-r');if(!el)return;const bkOld=!BK||Date.now()-BK>12096e5,

@@ -70,3 +70,6 @@ Fiche de chaque exercice : un paragraphe « sollicite principalement… / travai
 
 ## Version 2.8
 Toucher un mot de muscle souligné : la bulle montre une mini-silhouette avec seulement ce muscle en rouge, et le grand schéma de la fiche n'allume plus que cette zone (les autres repassent en gris) jusqu'à la fermeture de la bulle.
+
+## Version 2.9 : schéma anatomique détaillé
+Nouvelle silhouette dessinée pour Lift : contour du corps plus naturel et une trentaine de muscles séparés par de fins filets (deux faisceaux de pectoraux, deltoïdes avant / côté / arrière, abdominaux en 4 rangées, obliques, trois chefs des quadriceps, adducteurs, trapèzes, infra-épineux, grand rond, grand dorsal, lombaires, deux chefs du triceps, moyen et grand fessier, deux ischio-jambiers, jumeaux et soléaire). Les adducteurs deviennent une zone à part. Phrase « Touche un mot souligné… » retirée.
