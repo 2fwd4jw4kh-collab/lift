@@ -64,3 +64,6 @@ Illustrations originales (pas reprises d'un autre site) : silhouette de face et 
 
 ## Version 2.6 : dessins des mouvements
 47 exercices illustrés par un dessin au trait libre de droits (Everkinetic / Workout Guide, CC BY-SA 4.0), recoloré en noir encre, qui alterne position de départ et d'arrivée. Affiché à côté de la silhouette des muscles dans la carte, et en grand dans la fenêtre de détail. Crédits dans Réglages › À propos et `exos/CREDITS.md`.
+
+## Version 2.7 : textes explicatifs et vocabulaire
+Fiche de chaque exercice : un paragraphe « sollicite principalement… / travaille aussi… », « Pourquoi le développer ? », puis deux conseils d'exécution. Les termes techniques (supination, grand dorsal, chaîne postérieure…) sont soulignés en rouge ; un toucher ouvre une bulle sombre avec la définition, un toucher ailleurs la ferme. Glossaire de 45 termes, textes pour les 47 exercices des programmes.

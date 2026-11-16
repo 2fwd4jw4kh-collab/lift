@@ -1,5 +1,5 @@
 // Lift – hors-ligne : réseau d'abord (sans cache HTTP, pour recevoir tout de suite les mises à jour), cache en secours.
-const C='lift-v14',FILES=['./','index.html','fonts/archivo.woff2','manifest.webmanifest','icon-192.png','icon-512.png','apple-touch-icon.png'];
+const C='lift-v15',FILES=['./','index.html','fonts/archivo.woff2','manifest.webmanifest','icon-192.png','icon-512.png','apple-touch-icon.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(FILES)));self.skipWaiting()});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!=C).map(x=>caches.delete(x)))).then(()=>self.clients.claim()))});
 self.addEventListener('fetch',e=>{const u=new URL(e.request.url);if(e.request.method!='GET'||u.origin!=location.origin)return;
