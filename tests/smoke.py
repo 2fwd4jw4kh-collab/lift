@@ -60,6 +60,19 @@ with sync_playwright() as p:
   pg.evaluate("$('sfail').hidden=true;openRap()");pg.wait_for_timeout(400)
   with pg.expect_download() as dl:pg.click('#rapgo')
   ics=open(dl.value.path()).read();check('fichier agenda .ics',ics.startswith('BEGIN:VCALENDAR') and 'RRULE:FREQ=WEEKLY' in ics)
+  # 9. synchro : deux appareils modifiés -> les séances sont réunies, rien n'est écrasé
+  r=pg.evaluate("""(async()=>{SU={id:'u1'};localStorage.setItem('lift-uid','u1');TS=2000;localStorage.setItem('lift-sb','1000');
+    const rem=JSON.parse(snap());rem.D.dcs.s.push(['2026-11-15',80,5,3,1]);rem.D.nv={n:'Dips',sn:'Dips',g:'Pectoraux',s:[['2026-11-14',0,8,3,2]]};
+    D.pc.s.push(['2026-11-16',190,8,3,1]);let up=null;
+    SB={from:()=>({select:()=>({eq:()=>({maybeSingle:async()=>({data:{data:{st:rem,pf:{}},updated_at:3000},error:null})})}),upsert:async x=>{up=x;return{error:null}}})};
+    await cloudPull();const u=up&&up.data.st;
+    return [D.dcs.s.some(p=>p[0]=='2026-11-15'),!!D.nv,D.pc.s.some(p=>p[0]=='2026-11-16'),!!(u&&u.D.nv&&u.D.pc.s.some(p=>p[0]=='2026-11-16'))]})()""")
+  check(f'synchro : séances des deux appareils réunies {r}',all(r))
+  r=pg.evaluate("""(async()=>{TS=5000;localStorage.setItem('lift-sb','5000');const rem=JSON.parse(snap());delete rem.D.nv;
+    SB={from:()=>({select:()=>({eq:()=>({maybeSingle:async()=>({data:{data:{st:rem,pf:{}},updated_at:6000},error:null})})}),upsert:async()=>({error:null})})};
+    await cloudPull();return !D.nv&&TS==6000})()""")
+  check('synchro : suppression faite sur un autre appareil respectée',r)
+  pg.evaluate("SB=null;SU=null;localStorage.removeItem('lift-uid');0")
   pg.evaluate("window._m='';const d=Object.getOwnPropertyDescriptor(Location.prototype,'href');window.giveFeedback.toString().includes('mailto')&&(window._m='ok')")
   check('bouton Donner mon avis (mail pré-rempli)',pg.evaluate("window._m")=='ok')
   check('aucune erreur JavaScript',not errs);print(errs) if errs else None

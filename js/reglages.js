@@ -1,5 +1,5 @@
 // --- Réglages : page à part ouverte par le rouage ---
-var PV=window.PV||'t';const VER='3.1';let wq=0;
+var PV=window.PV||'t';const VER='3.2';let wq=0;
 function hdr(){const r=view=='r';$('back').hidden=!r;$('gear').hidden=r;$('mo').hidden=r;$('hi').textContent=r?'Réglages':greet()}
 const srow=(k,l,v,al)=>`<button class="srow" data-r="${k}"><span>${l}</span>${v!=null?`<em${al?' class="al"':''}>${v}</em>`:''}<i>›</i></button>`;
 function setR(){const el=$('v-r');if(!el)return;const bkOld=!BK||Date.now()-BK>12096e5,

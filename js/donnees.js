@@ -33,10 +33,10 @@ return'Erreur : '+(e&&e.message||'inconnue')}
 async function sbInit(){try{const m=await sbMod();SB=m.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,storageKey:'lift-auth'}});const r=await SB.auth.getSession();SU=r.data&&r.data.session?r.data.session.user:null;
 SB.auth.onAuthStateChange((ev,s)=>{if(ev=='PASSWORD_RECOVERY'){AS={step:'rec'};setTimeout(()=>$('data').click(),0)}const nu=s?s.user:null,ch=(nu&&nu.id)!=(SU&&SU.id);SU=nu;if(ch&&SU)setTimeout(async()=>{await cloudPull();welDone()},0);acUI()});if(SU)cloudPull()}catch(e){SB=null}sbTried=true;acUI()}
 
-function applyRemote(rd,rts){if(!rd||!rd.st)return;const s=mg(cp(rd.st));if(s.P&&typeof s.P=='object')PLAN=s.P;D=s.D;SE=s.SE;NT=s.NT;if(s.XS)XS=s.XS;DL=s.DL;TS=rts;store();
+function applyRemote(rd,rts){if(!rd||!rd.st)return;const s=mg(cp(rd.st));if(s.P&&typeof s.P=='object')PLAN=s.P;D=s.D;SE=s.SE;NT=s.NT;if(s.XS)XS=s.XS;DL=s.DL;TS=rts;store();sbSet(rts);
 if(rd.pf){if(rd.pf.n!=null)PF.n=rd.pf.n;if(rd.pf.g)PF.g=rd.pf.g;PF.ob=1;pfS();$('osheet').classList.remove('open')}pick=null;cmp=false;if(!D[sel[0]])sel=[Object.keys(D)[0]];render()}
 
-async function cloudPushNow(){clearTimeout(cpt);cpt=null;if(!SB||!SU)return;if(!TS)TS=Date.now();cst=3;acUI();try{const {error}=await SB.from('lift_state').upsert({user_id:SU.id,data:{st:JSON.parse(snap()),pf:{n:PF.n||'',g:G(),ob:1}},updated_at:TS});cst=error?2:1;if(!error)LS=Date.now()}catch(e){cst=2}acUI()}
+async function cloudPushNow(){clearTimeout(cpt);cpt=null;if(!SB||!SU)return;if(!TS)TS=Date.now();cst=3;acUI();try{const {error}=await SB.from('lift_state').upsert({user_id:SU.id,data:{st:JSON.parse(snap()),pf:{n:PF.n||'',g:G(),ob:1}},updated_at:TS});cst=error?2:1;if(!error){LS=Date.now();sbSet(TS)}}catch(e){cst=2}acUI()}
 
 function cpush(){if(!SB||!SU||!linked())return;clearTimeout(cpt);cpt=setTimeout(cloudPushNow,1500)}
 
@@ -45,7 +45,10 @@ const loc=JSON.parse(snap()),nl=nSess(loc);
 if(!data||!data.data){await cloudPushNow();setLinked();return}
 const rd=data.data,rts=+data.updated_at||0,nr=nSess(rd.st||{});
 if(!linked()){if(!nl){applyRemote(rd,rts);setLinked()}else if(!nr){TS=Date.now();store();await cloudPushNow();setLinked();return}else if(rts==TS){setLinked()}else{askConflict(rd,rts,nr,nl);cst=1;acUI();return}}
-else if(rts>TS)applyRemote(rd,rts);else if(rts<TS){await cloudPushNow();return}
+else{const base=sbBase();
+  // les deux côtés ont changé depuis la dernière synchro : on réunit au lieu d'écraser
+  if(rts!=TS&&base&&TS>base&&rts>base){const m=mergeSt(loc,TS,rd.st||{},rts);applyRemote({st:m,pf:rd.pf},Date.now());await cloudPushNow();toast('Séances des deux appareils réunies');return}
+  if(rts>TS)applyRemote(rd,rts);else if(rts<TS){await cloudPushNow();return}else sbSet(TS)}
 cst=1;LS=Date.now()}catch(e){cst=2}acUI()}
 
 function askConflict(rd,rts,nr,nl){CF={rd,rts};$('cfx').innerHTML=`<h3>Quelles données garder ?</h3><div class="mut">Ton compte contient déjà des séances, et cet appareil aussi. Les deux versions sont différentes.</div><button class="cta" data-cf="acc">Garder celles du compte (${nr} séance${nr>1?'s':''})</button><button class="ghost" data-cf="dev">Garder celles de cet appareil (${nl} séance${nl>1?'s':''})</button><div class="gp" style="margin-top:6px">L'autre version sera remplacée. Pense à faire une copie avant si tu as un doute.</div><button class="ghost" data-cf="later">Décider plus tard</button>`;$('csheet').classList.add('open')}
@@ -96,3 +99,17 @@ if(D[k].s.some(p=>p[0]==o.d))return;const ws=o.s.map(x=>x[0]),rs=o.s.map(x=>x[1]
 return[ne,np]}
 
 function xDates(){const d=(XS&&XS.d)||{};return Object.keys(d).filter(k=>d[k].c&&d[k].c.length)}
+
+// Synchro : date de la dernière version commune avec le compte
+function sbBase(){try{return +localStorage.getItem('lift-sb')||0}catch(e){return 0}}
+function sbSet(t){try{localStorage.setItem('lift-sb',String(t||0))}catch(e){}}
+
+// Réunit deux versions des données. En cas de doublon (même exercice, même jour ; même jour de séance),
+// la version la plus récente gagne ; tout ce qui n'existe que d'un côté est gardé.
+function mergeSt(a,ta,b,tb){const[N,O]=ta>=tb?[a||{},b||{}]:[b||{},a||{}],r=JSON.parse(JSON.stringify(N));
+  r.D=r.D||{};Object.entries(O.D||{}).forEach(([k,e])=>{const x=r.D[k];if(!x){r.D[k]=JSON.parse(JSON.stringify(e));return}
+    x.s=x.s||[];const days=new Set(x.s.map(p=>p[0]));(e.s||[]).forEach(p=>{if(!days.has(p[0]))x.s.push(p)});x.s.sort((u,v)=>u[0]<v[0]?-1:u[0]>v[0]?1:0)});
+  ['SE','NT'].forEach(f=>{r[f]=r[f]||{};Object.entries(O[f]||{}).forEach(([d,v])=>{if(!(d in r[f]))r[f][d]=v})});
+  r.XS=r.XS||{d:{}};r.XS.d=r.XS.d||{};Object.entries((O.XS||{}).d||{}).forEach(([d,v])=>{if(!(d in r.XS.d))r.XS.d[d]=v});
+  if(!r.XS.pl&&O.XS&&O.XS.pl)r.XS.pl=O.XS.pl;
+  r.DL=[...new Set([...(r.DL||[]),...(O.DL||[])])].sort();return r}

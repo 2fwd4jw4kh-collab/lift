@@ -293,6 +293,9 @@ details.adv{margin-top:8px;border-top:1px solid var(--line);padding-top:8px}deta
 #raph{font:inherit;font-size:16px;border:1px solid var(--line);border-radius:var(--r2);padding:8px 10px;background:var(--card);color:var(--tx)}
 #rapsheet{z-index:var(--z-sheet2)}
 .sfail{position:fixed;left:12px;right:12px;bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:var(--z-alert);background:var(--card);border:2px solid var(--red);border-radius:var(--r2);padding:12px 14px;font-size:var(--f2);line-height:1.45;box-shadow:0 8px 24px rgba(20,22,26,.2)}.sfail[hidden]{display:none}.sfail b{color:var(--red-ink)}.sfail button{display:block;margin-top:8px;font-weight:800;color:var(--red-ink)}
+/* zones de toucher agrandies sans changer la mise en page (44 px visés) */
+.nxa button,#back{position:relative}.nxa button::after{content:'';position:absolute;inset:-7px -6px}#back::after{content:'';position:absolute;inset:-7px 0}
+
 /* --- grand écran --- */
 @media(min-width:900px){body{padding-left:96px}
 .tabbar{right:auto;top:0;width:96px;flex-direction:column;justify-content:flex-start;gap:8px;padding:24px 10px;border-top:0;border-right:1px solid var(--line);background:var(--card)}

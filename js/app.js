@@ -308,11 +308,11 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-mus]');if(
 
 // ===== Lift 2.7 : textes explicatifs et vocabulaire =====
 
-(function(){const bub=document.createElement('div');bub.id='tmb';bub.className='tmb';bub.setAttribute('role','tooltip');document.body.appendChild(bub);let cur=null;
-const hide=()=>{bub.classList.remove('on');if(cur)cur.classList.remove('on');cur=null;focusZ(null)};
+(function(){const bub=document.createElement('div');bub.id='tmb';bub.className='tmb';bub.setAttribute('role','tooltip');bub.setAttribute('aria-hidden','true');document.body.appendChild(bub);let cur=null;
+const hide=()=>{bub.classList.remove('on');bub.setAttribute('aria-hidden','true');if(cur)cur.classList.remove('on');cur=null;focusZ(null)};
 window.focusZ=function(zz){document.querySelectorAll('.mubig svg.body').forEach(sv=>{sv.classList.toggle('focus',!!zz);sv.querySelectorAll('[data-z]').forEach(p=>p.classList.toggle('fz',!!zz&&zz.includes(p.dataset.z)))})};
 document.addEventListener('click',e=>{const b=e.target.closest('.tm');if(!b){if(cur&&!e.target.closest('#tmb')){hide();e.stopPropagation();e.preventDefault()}return}e.stopPropagation();e.preventDefault();if(cur===b){hide();return}const g=GL()[b.dataset.tm];if(!g)return;if(cur)cur.classList.remove('on');cur=b;b.classList.add('on');
-const zz=GZ()[b.dataset.tm];bub.innerHTML=(zz?`<div class="tmf">${bodySVG(zz,[],'xs')}</div>`:'')+`<b>${g[0]}</b>${g[1]}`;focusZ(zz);bub.classList.add('on');const r=b.getBoundingClientRect(),w=Math.min(300,innerWidth-24);bub.style.width=w+'px';const x=Math.max(12,Math.min(innerWidth-w-12,r.left+r.width/2-w/2));bub.style.left=x+'px';bub.style.setProperty('--ax',(r.left+r.width/2-x)+'px');
+const zz=GZ()[b.dataset.tm];bub.innerHTML=(zz?`<div class="tmf">${bodySVG(zz,[],'xs')}</div>`:'')+`<b>${g[0]}</b>${g[1]}`;focusZ(zz);(bub.removeAttribute('aria-hidden'),bub.classList.add('on'));const r=b.getBoundingClientRect(),w=Math.min(300,innerWidth-24);bub.style.width=w+'px';const x=Math.max(12,Math.min(innerWidth-w-12,r.left+r.width/2-w/2));bub.style.left=x+'px';bub.style.setProperty('--ax',(r.left+r.width/2-x)+'px');
 const h=bub.offsetHeight;let y=r.top-h-10,up=true;if(y<56){y=r.bottom+10;up=false}bub.style.top=y+'px';bub.classList.toggle('dn',!up);if(window.hap)hap()},true);
 addEventListener('scroll',hide,{passive:true,capture:true});})();
 

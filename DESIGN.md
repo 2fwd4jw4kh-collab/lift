@@ -91,3 +91,8 @@ Nouvelle silhouette dessinée pour Lift : contour du corps plus naturel et une t
 - CSS en un seul système : toutes les couleurs isolées et les niveaux de superposition deviennent des jetons (`--scrim`, `--red-wash`, `--body*`, `--z-*`), sections nommées par zone et non plus par version. Rendu vérifié identique écran par écran.
 - Cœur découpé : `donnees.js`, `seance.js`, `progression.js`, `programme.js`, `contenu.js`, `app.js`.
 - Tests lancés automatiquement sur GitHub à chaque envoi.
+
+## Version 3.2 : synchro sûre et accessibilité
+- Synchro : si deux appareils ont été modifiés depuis la dernière synchro, les séances sont réunies au lieu que la plus récente écrase l'autre. Une suppression faite sur un seul appareil reste respectée quand l'autre n'a rien changé.
+- Accessibilité : chaque fenêtre est annoncée par son nom à VoiceOver, la bulle de vocabulaire n'est plus lue quand elle est cachée, zones de toucher agrandies (« C'est fait », « Plus tard », « Retour »). Audit automatique (axe) sans défaut grave.
+- Contrôle de sécurité hebdomadaire sur GitHub : vérifie qu'aucune donnée n'est lisible sans compte.
