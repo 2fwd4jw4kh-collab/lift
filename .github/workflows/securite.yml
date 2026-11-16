@@ -1,0 +1,15 @@
+# Vérifie chaque lundi (et à la demande) qu'aucune donnée n'est lisible sans compte.
+name: Sécurité
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 6 * * 1'
+  push:
+    paths: ['tests/securite.py','.github/workflows/securite.yml']
+jobs:
+  rls:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+      - run: python3 tests/securite.py
