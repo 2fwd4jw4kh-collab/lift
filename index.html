@@ -283,6 +283,11 @@ html:has(.sheet.open),html:has(.sheet.open) body{overflow:hidden}
 .tmb b{display:block;color:#fff;font-size:var(--f3);margin-bottom:2px}
 .tmb::after{content:'';position:absolute;left:calc(var(--ax,50%) - 7px);bottom:-6px;width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:7px solid var(--tx)}
 .tmb.dn::after{bottom:auto;top:-6px;border-top:0;border-bottom:7px solid var(--tx)}
+
+.tmf{float:right;width:84px;margin:0 0 4px 10px;background:rgba(255,255,255,.08);border-radius:6px;padding:4px}
+.tmf svg{display:block;width:100%}.tmf .body .bb,.tmf .body .mn{fill:#3A3E45}.tmf .body path,.tmf .body circle{stroke:var(--tx)}.tmf .body .mp{fill:#E2533D}
+.body.focus .mp,.body.focus .ms{fill:#CDD1CC;fill-opacity:1}.body.focus .fz{fill:var(--red)!important;fill-opacity:1!important}
+.body path{transition:fill 180ms var(--ease-out),fill-opacity 180ms var(--ease-out)}
 /* --- grand écran --- */
 @media(min-width:900px){body{padding-left:96px}
 .tabbar{right:auto;top:0;width:96px;flex-direction:column;justify-content:flex-start;gap:8px;padding:24px 10px;border-top:0;border-right:1px solid var(--line);background:var(--card)}
@@ -905,7 +910,7 @@ for(const[w,v]of kw)if(t.includes(w))return[v[0],v[1],''];
 const G={'Pectoraux':[['pecs'],['delt_ant','triceps']],'Épaules':[['delt_ant','delt_lat'],[]],'Dos':[['dorsaux','haut_dos'],['biceps']],'Bras':[['biceps','triceps'],[]],'Jambes':[['quads','fessiers'],['ischios']],'Abdos':[['abdos'],['obliques']],'Cardio':[['quads'],['mollets']]}[g]||[[],[]];return[G[0],G[1],'']}
 // silhouette : vue de face (x 0-100) et de dos (x 110-210), hauteur 200
 function bodySVG(pr,se,cls){const on=z=>pr.includes(z)?'mp':se.includes(z)?'ms':'mn';
-const sym=(d,z)=>`<path class="${on(z)}" d="${d}"/>`;
+const sym=(d,z)=>`<path class="${on(z)}" data-z="${z}" d="${d}"/>`;
 const F=`<g>
 <circle class="bb" cx="50" cy="15" r="10"/><path class="bb" d="M45 24h10v8H45z"/>
 <path class="bb" d="M30 34q20-6 40 0l2 58q-22 6-44 0z"/>
@@ -1044,12 +1049,14 @@ c_velo:["Le vélo sollicite principalement les {quadriceps|quad}. Le {grand fess
 c_tapis:["Le tapis sollicite principalement les mollets et les {quadriceps|quad}. Le {grand fessier|gfes} travaille davantage en marche inclinée, et le {système cardio-vasculaire|cv} est entraîné.","La marche inclinée est un cardio efficace et facile à doser, avec peu d'impact sur les articulations.",["Ne te tiens pas aux barres : tu perdrais une grande partie de l'effort.","Augmente la pente avant la vitesse pour progresser."]],
 c_elliptique:["L'elliptique sollicite principalement les {quadriceps|quad} et le {grand fessier|gfes}. Les bras poussent et tirent les poignées, et le {système cardio-vasculaire|cv} est entraîné.","Un cardio sans impact qui fait travailler le haut et le bas du corps en même temps.",["Garde le buste droit et appuie sur tout le pied, pas seulement sur la pointe.","Utilise vraiment les bras pour répartir l'effort."]],
 c_cordeasauter:["La corde à sauter sollicite principalement les mollets ({gastrocnémiens|gastro} et {soléaire|sol}). Les épaules et les avant-bras font tourner la corde, et le {système cardio-vasculaire|cv} est fortement sollicité.","Un cardio intense et court qui améliore la coordination, l'explosivité et l'endurance.",["Saute bas, sur la pointe des pieds, genoux légèrement fléchis.","Fais tourner la corde avec les poignets, pas avec les bras entiers."]]}}
+function GZ(){return{gp:['pecs'],fclav:['pecs'],dant:['delt_ant'],dlat:['delt_lat'],dpost:['delt_post'],tri:['triceps'],bic:['biceps'],brach:['biceps'],brr:['avbras'],gd:['dorsaux'],trap:['haut_dos'],rhom:['haut_dos'],omo:['haut_dos'],ret:['haut_dos'],coif:['delt_post'],lomb:['lombaires'],gfes:['fessiers'],mfes:['fessiers'],quad:['quads'],isch:['ischios'],add:['quads'],gastro:['mollets'],sol:['mollets'],gdroit:['abdos'],obl:['obliques'],trans:['abdos'],gain:['abdos','obliques','lombaires'],chp:['mollets','ischios','fessiers','lombaires'],ext:['fessiers','ischios']}}
 function txH(t){const G=GL();return esc(t).replace(/\{([^|}]+)\|([a-z_]+)\}/g,(m,w,k)=>G[k]?`<button class="tm" data-tm="${k}">${w}</button>`:w)}
 function txBlock(k,n,g){const T=TX()[k];if(!T)return null;return`<p class="txp">${txH(T[0])}</p><p class="txp"><b>Pourquoi le développer ?</b> ${txH(T[1])}</p><div class="txc"><b>Conseils</b><ul>${T[2].map(c=>`<li>${txH(c)}</li>`).join('')}</ul></div><div class="gp">Touche un mot souligné pour voir sa définition.</div>`}
 (function(){const bub=document.createElement('div');bub.id='tmb';bub.className='tmb';bub.setAttribute('role','tooltip');document.body.appendChild(bub);let cur=null;
-const hide=()=>{bub.classList.remove('on');if(cur)cur.classList.remove('on');cur=null};
+const hide=()=>{bub.classList.remove('on');if(cur)cur.classList.remove('on');cur=null;focusZ(null)};
+window.focusZ=function(zz){document.querySelectorAll('.mubig svg.body').forEach(sv=>{sv.classList.toggle('focus',!!zz);sv.querySelectorAll('[data-z]').forEach(p=>p.classList.toggle('fz',!!zz&&zz.includes(p.dataset.z)))})};
 document.addEventListener('click',e=>{const b=e.target.closest('.tm');if(!b){if(cur&&!e.target.closest('#tmb')){hide();e.stopPropagation();e.preventDefault()}return}e.stopPropagation();e.preventDefault();if(cur===b){hide();return}const g=GL()[b.dataset.tm];if(!g)return;if(cur)cur.classList.remove('on');cur=b;b.classList.add('on');
-bub.innerHTML=`<b>${g[0]}</b>${g[1]}`;bub.classList.add('on');const r=b.getBoundingClientRect(),w=Math.min(300,innerWidth-24);bub.style.width=w+'px';const x=Math.max(12,Math.min(innerWidth-w-12,r.left+r.width/2-w/2));bub.style.left=x+'px';bub.style.setProperty('--ax',(r.left+r.width/2-x)+'px');
+const zz=GZ()[b.dataset.tm];bub.innerHTML=(zz?`<div class="tmf">${bodySVG(zz,[],'xs')}</div>`:'')+`<b>${g[0]}</b>${g[1]}`;focusZ(zz);bub.classList.add('on');const r=b.getBoundingClientRect(),w=Math.min(300,innerWidth-24);bub.style.width=w+'px';const x=Math.max(12,Math.min(innerWidth-w-12,r.left+r.width/2-w/2));bub.style.left=x+'px';bub.style.setProperty('--ax',(r.left+r.width/2-x)+'px');
 const h=bub.offsetHeight;let y=r.top-h-10,up=true;if(y<56){y=r.bottom+10;up=false}bub.style.top=y+'px';bub.classList.toggle('dn',!up);if(window.hap)hap()},true);
 addEventListener('scroll',hide,{passive:true,capture:true});})();
 
@@ -1181,7 +1188,7 @@ function fbRow(d){const f=XS.d&&XS.d[d]&&XS.d[d].f;if(!f)return'';const T=Object
 function sessSub(n,tv,d){const x=XS.d&&XS.d[d],cm=((x&&x.c)||[]).reduce((a,c)=>a+c.m,0),p=[];if(n)p.push(n+' exercice'+(n>1?'s':'')+' · '+tv+' série'+(tv>1?'s':''));if(cm)p.push(cm+' min de cardio');return p.join(' · ')}
 </script><script>
 // --- Réglages : page à part ouverte par le rouage ---
-var PV=window.PV||'t';const VER='2.7';let wq=0;
+var PV=window.PV||'t';const VER='2.8';let wq=0;
 function hdr(){const r=view=='r';$('back').hidden=!r;$('gear').hidden=r;$('mo').hidden=r;$('hi').textContent=r?'Réglages':greet()}
 const srow=(k,l,v,al)=>`<button class="srow" data-r="${k}"><span>${l}</span>${v!=null?`<em${al?' class="al"':''}>${v}</em>`:''}<i>›</i></button>`;
 function setR(){const el=$('v-r');if(!el)return;const bkOld=!BK||Date.now()-BK>12096e5,
