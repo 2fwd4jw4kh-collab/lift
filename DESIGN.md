@@ -61,3 +61,6 @@ Trois disques vus de profil, de plus en plus grands, sur une barre blanche : à 
 
 ## Version 2.5 : muscles travaillés
 Illustrations originales (pas reprises d'un autre site) : silhouette de face et de dos en gris neutre, muscles principaux en rouge brique plein, muscles en soutien en rouge à 35 %. Une carte compacte (mini-silhouette + noms) sous le nom de l'exercice en séance et dans Progression ; un toucher ouvre la grande illustration, une explication simple de chaque muscle et un conseil d'exécution. Les exercices créés à la main sont reconnus par mots-clés (curl, squat, rowing…) ou, à défaut, par leur groupe.
+
+## Version 2.6 : dessins des mouvements
+47 exercices illustrés par un dessin au trait libre de droits (Everkinetic / Workout Guide, CC BY-SA 4.0), recoloré en noir encre, qui alterne position de départ et d'arrivée. Affiché à côté de la silhouette des muscles dans la carte, et en grand dans la fenêtre de détail. Crédits dans Réglages › À propos et `exos/CREDITS.md`.
