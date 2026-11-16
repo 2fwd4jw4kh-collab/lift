@@ -1,5 +1,5 @@
 -- Lift : statistiques anonymes (aucune donnée personnelle, aucun lien avec les comptes)
--- À exécuter une fois dans Supabase › SQL Editor › New query › Run.
+-- À exécuter une fois dans Supabase › SQL Editor › New query › Run. (Fait le 16/11/2026.)
 
 create table if not exists public.lift_events (
   id bigint generated always as identity primary key,
@@ -17,6 +17,7 @@ alter table public.lift_events enable row level security;
 drop policy if exists "ajout anonyme" on public.lift_events;
 create policy "ajout anonyme" on public.lift_events
   for insert to anon, authenticated with check (true);
+grant insert on public.lift_events to anon, authenticated;
 
 -- ===== Les 3 indicateurs (à lancer dans le SQL Editor quand tu veux les voir) =====
 
