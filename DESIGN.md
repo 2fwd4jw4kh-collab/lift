@@ -73,3 +73,14 @@ Toucher un mot de muscle souligné : la bulle montre une mini-silhouette avec se
 
 ## Version 2.9 : schéma anatomique détaillé
 Nouvelle silhouette dessinée pour Lift : contour du corps plus naturel et une trentaine de muscles séparés par de fins filets (deux faisceaux de pectoraux, deltoïdes avant / côté / arrière, abdominaux en 4 rangées, obliques, trois chefs des quadriceps, adducteurs, trapèzes, infra-épineux, grand rond, grand dorsal, lombaires, deux chefs du triceps, moyen et grand fessier, deux ischio-jambiers, jumeaux et soléaire). Les adducteurs deviennent une zone à part. Phrase « Touche un mot souligné… » retirée.
+
+## Version 3.0 : cœur fiabilisé
+- Dates à l'heure locale (plus de séance datée de la veille après minuit) ; rechargement automatique de la date au retour dans l'appli.
+- Données : 7 versions quotidiennes au lieu de 30, demande de stockage persistant, bandeau d'alerte si un enregistrement échoue.
+- Records (PB/SB) et courbe par défaut sur le 1RM estimé : plus lourd ou plus de reps compte ; au poids du corps, les reps (2,5 kg de lest ≈ 1 rep).
+- Écran de séance : nom, objectif sur une ligne, suggestion, puis les séries tout de suite ; le reste (dernière fois, 1RM, muscles) sous les boutons.
+- Premier lancement : tutoriel d'abord ; compte proposé seulement après la toute première séance.
+- Progression : résumé du mois (séances, records, séries) et bloc Cardio sur 4 semaines.
+- Réglages : export CSV, import Hevy/Strong, rappels dans l'agenda (.ics hebdomadaire avec alerte 15 min avant), inviter un ami.
+- Retirés : bilan IA (invisible hors environnement Claude), copier-coller de sauvegarde rangé dans « avancé ».
+- Code séparé en fichiers (`css/`, `js/`), tests de fumée dans `tests/smoke.py`.
